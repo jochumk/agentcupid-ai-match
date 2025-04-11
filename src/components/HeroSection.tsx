@@ -20,7 +20,7 @@ const HeroSection = () => {
           </p>
           <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
             <Button size="lg" asChild>
-              <Link to="/discover" className="flex items-center">
+              <Link to="/find-agents" className="flex items-center">
                 Find AI Agents
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
