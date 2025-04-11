@@ -1,9 +1,16 @@
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
+  const handleExampleSearch = () => {
+    // Navigate to search results with the example query
+    navigate("/search-results?query=Answer+customer+emails+automatically");
+  };
+
   return (
     <div className="relative overflow-hidden pt-24 md:pt-32 pb-16">
       {/* Purple gradient background */}
@@ -28,6 +35,17 @@ const HeroSection = () => {
             <Button size="lg" variant="outline" asChild>
               <Link to="/developer/dashboard">For AI Creators</Link>
             </Button>
+          </div>
+          
+          {/* Example search suggestion */}
+          <div className="mt-8 flex justify-center">
+            <div 
+              onClick={handleExampleSearch}
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-background shadow-sm border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors"
+            >
+              <Search className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm">Try: <span className="font-medium text-primary">"Answer customer emails automatically"</span></span>
+            </div>
           </div>
         </div>
       </div>
