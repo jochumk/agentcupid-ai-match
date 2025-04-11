@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { 
   MessagesSquare, 
   Brain,
@@ -22,21 +21,14 @@ import {
   BookOpen,
   Building2,
   FileText,
-  Settings,
-  Calendar,
-  Mail,
-  Search
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
-import SearchAssistant from "@/components/search/SearchAssistant";
+import SearchHeader from "@/components/search/SearchHeader";
+import AgentSearchTab from "@/components/search/AgentSearchTab";
+import DeveloperSearchTab from "@/components/search/DeveloperSearchTab";
+import AgentFilters from "@/components/search/AgentFilters";
 
 const categoryDefinitions = {
   communication: {
@@ -266,92 +258,33 @@ const FindAgents = () => {
       
       <div className="bg-gray-50 py-12 md:py-20 mt-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-8 md:mb-12">
-            <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">
-              Find the Perfect Match for Your Needs
-            </h1>
-            <p className="text-gray-600 text-lg mb-8">
-              Explore a wide range of AI solutions designed to automate tasks, improve productivity, and enhance your business processes.
-            </p>
-            
-            <Tabs 
-              defaultValue="agents" 
-              value={searchTab} 
-              onValueChange={(value) => setSearchTab(value as "agents" | "developers")}
-              className="w-full max-w-xl mx-auto"
-            >
-              <TabsList className="grid w-full grid-cols-2 mb-8">
-                <TabsTrigger value="agents" className="text-base py-3">Find AI Agents</TabsTrigger>
-                <TabsTrigger value="developers" className="text-base py-3">Find AI Developers</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="agents">
-                <SearchAssistant onSearch={handleSearch} initialQuery={searchQuery} />
-              </TabsContent>
-              
-              <TabsContent value="developers">
-                <div className="space-y-4">
-                  <Textarea 
-                    placeholder="Describe your business challenge... 
-Example: We need help automating our customer support workflow by integrating with our existing CRM system..."
-                    value={devSearchQuery}
-                    onChange={(e) => setDevSearchQuery(e.target.value)}
-                    className="min-h-[120px] p-4 text-base"
-                  />
-                  <p className="text-sm text-gray-500 text-left">
-                    The more details you provide, the better matches we can find
-                  </p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Industry</label>
-                      <Select value={industry} onValueChange={setIndustry}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select Industry" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="any">Any Industry</SelectItem>
-                          <SelectItem value="technology">Technology</SelectItem>
-                          <SelectItem value="healthcare">Healthcare</SelectItem>
-                          <SelectItem value="finance">Finance</SelectItem>
-                          <SelectItem value="education">Education</SelectItem>
-                          <SelectItem value="ecommerce">E-commerce</SelectItem>
-                          <SelectItem value="manufacturing">Manufacturing</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Budget Range</label>
-                      <Select value={budget} onValueChange={setBudget}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select Budget" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="any">Any Budget</SelectItem>
-                          <SelectItem value="0-5000">$0 - $5,000</SelectItem>
-                          <SelectItem value="5000-10000">$5,000 - $10,000</SelectItem>
-                          <SelectItem value="10000-25000">$10,000 - $25,000</SelectItem>
-                          <SelectItem value="25000-50000">$25,000 - $50,000</SelectItem>
-                          <SelectItem value="50000-100000">$50,000 - $100,000</SelectItem>
-                          <SelectItem value="100000+">$100,000+</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                  
-                  <Button 
-                    onClick={handleSubmit} 
-                    className="w-full rounded-full mt-4"
-                    disabled={!devSearchQuery.trim()}
-                  >
-                    <Search className="mr-2 h-5 w-5" />
-                    Find AI Developers
-                  </Button>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </div>
+          <SearchHeader 
+            searchTab={searchTab}
+            onSearchTabChange={(value) => setSearchTab(value as "agents" | "developers")}
+            agentTabContent={
+              <AgentSearchTab 
+                searchQuery={searchQuery}
+                onSearch={handleSearch}
+                selectedCategories={selectedCategories}
+                selectedTools={selectedTools}
+                setupTime={setupTime}
+                onSubmit={handleSubmit}
+                examplePrompts={examplePrompts}
+                onPromptClick={handlePromptClick}
+              />
+            }
+            developerTabContent={
+              <DeveloperSearchTab 
+                devSearchQuery={devSearchQuery}
+                onDevSearchQueryChange={setDevSearchQuery}
+                industry={industry}
+                onIndustryChange={setIndustry}
+                budget={budget}
+                onBudgetChange={setBudget}
+                onSubmit={handleSubmit}
+              />
+            }
+          />
           
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center justify-between mb-4">
@@ -375,94 +308,24 @@ Example: We need help automating our customer support workflow by integrating wi
                 )}
               </button>
             </div>
-            
-            <div className="flex flex-wrap gap-4 justify-center">
-              {examplePrompts.map((prompt) => (
-                <Button
-                  key={prompt}
-                  variant="outline"
-                  className="rounded-full"
-                  onClick={() => handlePromptClick(prompt)}
-                >
-                  {prompt}
-                </Button>
-              ))}
-            </div>
           </div>
         </div>
       </div>
       
-      <div className={`bg-white py-8 ${showFilters && searchTab === "agents" ? 'block' : 'hidden'}`}>
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-6">
-              Filter Your Results
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="text-lg font-medium text-gray-700 mb-3">
-                  Categories
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {categories.map((category) => (
-                    <Button
-                      key={category.name}
-                      variant={selectedCategories.includes(category.name) ? "default" : "outline"}
-                      className="rounded-full text-sm"
-                      onClick={() => handleCategoryToggle(category.name)}
-                    >
-                      {renderCategoryIcon(category.name)}
-                      {category.name}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-              
-              <div>
-                <h3 className="text-lg font-medium text-gray-700 mb-3">
-                  Tools & Integrations
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {Object.values(categoryDefinitions).flatMap(category => category.tools).map((tool) => (
-                    <Button
-                      key={tool}
-                      variant={selectedTools.includes(tool) ? "default" : "outline"}
-                      className="rounded-full text-sm"
-                      onClick={() => handleToolToggle(tool)}
-                    >
-                      {tool}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            </div>
-            
-            <div className="mt-6">
-              <h3 className="text-lg font-medium text-gray-700 mb-3">
-                Setup Time
-              </h3>
-              <Select value={setupTime} onValueChange={setSetupTime}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Any" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="any">Any</SelectItem>
-                  <SelectItem value="quick">Quick Setup (minutes)</SelectItem>
-                  <SelectItem value="moderate">Moderate Setup (hours)</SelectItem>
-                  <SelectItem value="complex">Complex Setup (days)</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div className="mt-6">
-              <Button onClick={handleSubmit} className="w-full rounded-full">
-                Apply Filters
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      {searchTab === "agents" && (
+        <AgentFilters 
+          showFilters={showFilters}
+          categoryDefinitions={categoryDefinitions}
+          selectedCategories={selectedCategories}
+          selectedTools={selectedTools}
+          setupTime={setupTime}
+          onSetupTimeChange={setSetupTime}
+          onCategoryToggle={handleCategoryToggle}
+          onToolToggle={handleToolToggle}
+          onSubmit={handleSubmit}
+          renderCategoryIcon={renderCategoryIcon}
+        />
+      )}
       
       <Footer />
     </div>
