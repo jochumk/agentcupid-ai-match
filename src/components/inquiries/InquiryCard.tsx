@@ -7,6 +7,9 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { formatDistanceToNow } from "date-fns";
 
+// Ensure the InquiryStatus type here matches the one in InquiryStatusBadge
+type InquiryStatus = "open" | "active" | "taken" | "completed" | "pending" | "draft";
+
 interface Inquiry {
   id: string;
   title: string;
@@ -21,7 +24,7 @@ interface Inquiry {
     max?: number;
   };
   integrations: string[];
-  status: "open" | "active" | "taken" | "completed";
+  status: InquiryStatus;
   proposalCount: number;
 }
 

@@ -10,12 +10,15 @@ import { Badge } from "@/components/ui/badge";
 import { InquiryStatusBadge } from "@/components/inquiries/InquiryStatusBadge";
 import Navbar from "@/components/Navbar";
 
+// Import or define the InquiryStatus type to match the one in InquiryStatusBadge
+type InquiryStatus = "open" | "active" | "taken" | "completed" | "pending" | "draft";
+
 // Mock data for recent inquiries
 const recentInquiries = [
   {
     id: "INQ-1234",
     title: "Email automation for customer support",
-    status: "active",
+    status: "active" as InquiryStatus,
     date: "2025-04-10",
     proposals: 3,
     type: "Open",
@@ -23,7 +26,7 @@ const recentInquiries = [
   {
     id: "INQ-1235",
     title: "Knowledge base integration with chatbot",
-    status: "pending",
+    status: "pending" as InquiryStatus,
     date: "2025-04-09",
     proposals: 0,
     type: "Direct",
@@ -31,7 +34,7 @@ const recentInquiries = [
   {
     id: "INQ-1236",
     title: "AI training for customer service team",
-    status: "completed",
+    status: "completed" as InquiryStatus,
     date: "2025-04-05",
     proposals: 5,
     type: "Open",
@@ -39,7 +42,7 @@ const recentInquiries = [
   {
     id: "INQ-1237",
     title: "Data analysis dashboard",
-    status: "open",
+    status: "open" as InquiryStatus,
     date: "2025-04-11",
     proposals: 1,
     type: "Open",
@@ -47,7 +50,7 @@ const recentInquiries = [
   {
     id: "INQ-1238",
     title: "Customer feedback analysis system",
-    status: "taken",
+    status: "taken" as InquiryStatus,
     date: "2025-04-07",
     proposals: 4,
     type: "Open",
