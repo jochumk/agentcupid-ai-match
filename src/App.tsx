@@ -17,6 +17,9 @@ import AgentManagement from "./pages/developer/AgentManagement";
 import InquiryManagement from "./pages/developer/InquiryManagement";
 import Documentation from "./pages/developer/Documentation";
 import RequestCustomSolution from "./pages/RequestCustomSolution";
+import Expertise from "./pages/developer/Expertise";
+import ExpertiseForm from "./pages/developer/ExpertiseForm";
+import ExpertisePreview from "./pages/developer/ExpertisePreview";
 
 // Create a new QueryClient instance
 const queryClient = new QueryClient();
@@ -42,6 +45,12 @@ const App = () => (
           <Route path="/developer/agents" element={<AgentManagement />} />
           <Route path="/developer/inquiries" element={<InquiryManagement />} />
           <Route path="/developer/documentation" element={<Documentation />} />
+          
+          {/* Expertise Routes */}
+          <Route path="/developer/expertise" element={<Expertise />} />
+          <Route path="/developer/expertise/new" element={<ExpertiseForm />} />
+          <Route path="/developer/expertise/:id" element={<ExpertiseForm />} />
+          <Route path="/developer/expertise/:id/preview" element={<ExpertisePreview />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

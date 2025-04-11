@@ -1,11 +1,11 @@
 
 import { Link, useLocation } from "react-router-dom";
 import {
+  Award,
   BarChart2,
   BookOpen,
   ChevronLeft,
   FileText,
-  Inbox,
   Menu,
   MessageSquare,
   Plus,
@@ -36,6 +36,11 @@ const DeveloperLayout = ({ children }: DeveloperLayoutProps) => {
       name: "My Agents",
       href: "/developer/agents",
       icon: FileText,
+    },
+    {
+      name: "My Expertise",
+      href: "/developer/expertise",
+      icon: Award,
     },
     {
       name: "Add New Agent",
