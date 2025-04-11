@@ -21,6 +21,7 @@ import Expertise from "./pages/developer/Expertise";
 import ExpertiseForm from "./pages/developer/ExpertiseForm";
 import ExpertisePreview from "./pages/developer/ExpertisePreview";
 import ApiIntegration from "./pages/developer/ApiIntegration";
+import DeveloperLanding from "./pages/DeveloperLanding";
 
 // Customer Pages
 import CustomerDashboard from "./pages/customer/CustomerDashboard";
@@ -45,6 +46,7 @@ const App = () => (
           {/* Public Routes */}
           <Route path="/" element={<Index />} />
           <Route path="/find-agents" element={<FindAgents />} />
+          <Route path="/find-developers" element={<DeveloperLanding />} />
           <Route path="/search-results" element={<SearchResults />} />
           <Route path="/request-custom-solution" element={<RequestCustomSolution />} />
           <Route path="/submit-inquiry" element={<SubmitInquiry />} />
