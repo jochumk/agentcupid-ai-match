@@ -3,106 +3,167 @@ import { Link, useNavigate } from "react-router-dom";
 import { 
   Search, 
   Mic, 
-  Filter, 
-  Star, 
-  ChevronDown, 
-  BookmarkPlus, 
-  ArrowRight,
-  Clock,
-  TrendingUp,
-  HelpCircle
+  MessagesSquare, 
+  Mail, 
+  Calendar, 
+  FileText, 
+  Settings, 
+  Building2, 
+  Users, 
+  BookOpen,
+  Brain,
+  BarChart,
+  Briefcase,
+  Cloud,
+  Code,
+  DollarSign,
+  Headphones,
+  Heart,
+  Image,
+  Languages,
+  Music,
+  PenTool,
+  ShoppingCart,
+  Video,
+  X,
+  ChevronDown
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Switch } from "@/components/ui/switch";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-// Mock data for agents
-const mockAgents = [
-  {
-    id: 1,
-    name: "EmailMaster",
-    description: "Automatically respond to customer support emails using your company's knowledge base",
-    rating: 4.8,
-    reviews: 127,
-    priceRange: "$$ (Monthly subscription)",
-    setupTime: "Quick Setup",
-    worksWithTools: ["Gmail", "Outlook", "HelpDesk"],
-    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    categories: ["Customer Support", "Email Automation"]
+const categoryDefinitions = {
+  communication: {
+    name: "Communication",
+    description: "Enhance team collaboration and customer engagement.",
+    icon: MessagesSquare,
+    tools: ["Slack", "Microsoft Teams", "Zoom", "Email"]
   },
-  {
-    id: 2,
-    name: "InvoiceHelper",
-    description: "Process invoices automatically and prepare them for your accounting system",
-    rating: 4.5,
-    reviews: 89,
-    priceRange: "$$ (Monthly subscription)",
-    setupTime: "Some Setup",
-    worksWithTools: ["QuickBooks", "Xero", "Gmail"],
-    imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    categories: ["Finance", "Document Processing"]
+  writing: {
+    name: "Writing & Content",
+    description: "Generate high-quality content for blogs, articles, and marketing.",
+    icon: PenTool,
+    tools: ["Google Docs", "Medium", "WordPress"]
   },
-  {
-    id: 3,
-    name: "MeetingScribe",
-    description: "Transcribe and summarize your business meetings with action items",
-    rating: 4.7,
-    reviews: 112,
-    priceRange: "$ (Pay per use)",
-    setupTime: "Quick Setup",
-    worksWithTools: ["Zoom", "Teams", "Google Meet"],
-    imageUrl: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    categories: ["Productivity", "Meeting Management"]
+  productivity: {
+    name: "Productivity",
+    description: "Streamline workflows and automate repetitive tasks.",
+    icon: BarChart,
+    tools: ["Trello", "Asana", "Monday.com"]
   },
-  {
-    id: 4,
-    name: "SocialResponder",
-    description: "Automatically engage with customers across all your social media channels",
-    rating: 4.3,
-    reviews: 78,
-    priceRange: "$$ (Monthly subscription)",
-    setupTime: "Some Setup",
-    worksWithTools: ["Facebook", "Twitter", "Instagram", "LinkedIn"],
-    imageUrl: "https://images.unsplash.com/photo-1611926653458-09294b3142bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-    categories: ["Social Media", "Customer Support"]
+  sales: {
+    name: "Sales & Marketing",
+    description: "Boost sales performance and marketing effectiveness.",
+    icon: DollarSign,
+    tools: ["Salesforce", "HubSpot", "Mailchimp"]
+  },
+  customerService: {
+    name: "Customer Service",
+    description: "Improve customer satisfaction and support efficiency.",
+    icon: Headphones,
+    tools: ["Zendesk", "Intercom", "Help Scout"]
+  },
+  hr: {
+    name: "Human Resources",
+    description: "Automate HR processes and improve employee experience.",
+    icon: Users,
+    tools: ["Workday", "BambooHR", "Greenhouse"]
+  },
+  finance: {
+    name: "Finance",
+    description: "Manage finances, automate accounting, and improve financial insights.",
+    icon: DollarSign,
+    tools: ["QuickBooks", "Xero", "NetSuite"]
+  },
+  education: {
+    name: "Education",
+    description: "Enhance learning experiences and automate educational tasks.",
+    icon: BookOpen,
+    tools: ["Google Classroom", "Canvas", "Moodle"]
+  },
+  research: {
+    name: "Research & Development",
+    description: "Accelerate research processes and improve data analysis.",
+    icon: Brain,
+    tools: ["Jupyter Notebook", "MATLAB", "SPSS"]
+  },
+  projectManagement: {
+    name: "Project Management",
+    description: "Organize projects, track progress, and improve team collaboration.",
+    icon: Briefcase,
+    tools: ["Jira", "Asana", "Trello"]
+  },
+  cloudServices: {
+    name: "Cloud Services",
+    description: "Manage cloud infrastructure, automate deployments, and improve scalability.",
+    icon: Cloud,
+    tools: ["AWS", "Azure", "Google Cloud"]
+  },
+  softwareDevelopment: {
+    name: "Software Development",
+    description: "Automate coding tasks, improve code quality, and accelerate development cycles.",
+    icon: Code,
+    tools: ["GitHub", "GitLab", "Bitbucket"]
+  },
+  healthcare: {
+    name: "Healthcare",
+    description: "Improve patient care, automate administrative tasks, and enhance medical research.",
+    icon: Heart,
+    tools: ["Epic", "Cerner", "Meditech"]
+  },
+  media: {
+    name: "Media & Entertainment",
+    description: "Automate content creation, improve media management, and enhance user engagement.",
+    icon: Image,
+    tools: ["Adobe Creative Suite", "Final Cut Pro", "DaVinci Resolve"]
+  },
+  localization: {
+    name: "Localization",
+    description: "Automate translation processes, improve localization accuracy, and expand global reach.",
+    icon: Languages,
+    tools: ["SDL Trados", "memoQ", "Transifex"]
+  },
+  music: {
+    name: "Music Production",
+    description: "Automate music creation, improve audio quality, and enhance music distribution.",
+    icon: Music,
+    tools: ["Ableton Live", "Logic Pro", "Pro Tools"]
+  },
+  ecommerce: {
+    name: "E-commerce",
+    description: "Automate online sales, improve customer experience, and enhance marketing efforts.",
+    icon: ShoppingCart,
+    tools: ["Shopify", "Magento", "WooCommerce"]
+  },
+  videoProduction: {
+    name: "Video Production",
+    description: "Automate video editing, improve video quality, and enhance video distribution.",
+    icon: Video,
+    tools: ["Adobe Premiere Pro", "Final Cut Pro", "DaVinci Resolve"]
+  },
+  legal: {
+    name: "Legal",
+    description: "Automate legal processes, improve document management, and enhance legal research.",
+    icon: FileText,
+    tools: ["LexisNexis", "Westlaw", "Practical Law"]
+  },
+  manufacturing: {
+    name: "Manufacturing",
+    description: "Automate manufacturing processes, improve production efficiency, and enhance quality control.",
+    icon: Building2,
+    tools: ["SAP", "Oracle", "Siemens"]
   }
-];
+};
 
-// Business categories
-const businessCategories = [
-  "Customer Support",
-  "Sales",
-  "Marketing",
-  "Finance",
-  "HR",
-  "Productivity",
-  "Document Processing",
-  "Meeting Management",
-  "Social Media"
-];
-
-// Business tools
-const businessTools = [
-  "Gmail",
-  "Outlook",
-  "Slack",
-  "Teams",
-  "Zoom",
-  "QuickBooks",
-  "Xero",
-  "Salesforce",
-  "HubSpot"
-];
+const categories = Object.values(categoryDefinitions);
 
 const FindAgents = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [priceRange, setPriceRange] = useState([50]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTools, setSelectedTools] = useState<string[]>([]);
   const [setupTime, setSetupTime] = useState<string>("any");
@@ -111,361 +172,206 @@ const FindAgents = () => {
 
   // Example search prompts that rotate
   const examplePrompts = [
-    "Answer customer emails automatically",
-    "Process invoices faster",
-    "Summarize meeting notes",
+    "Answer customer emails automatically", 
+    "Generate blog content weekly",
+    "Summarize meeting recordings",
     "Manage social media responses",
     "Screen job applications"
   ];
 
   const handlePromptClick = (prompt: string) => {
     setSearchQuery(prompt);
-    navigate(`/search-results?query=${encodeURIComponent(prompt)}`);
+    navigate(`/search-results?q=${encodeURIComponent(prompt)}`);
   };
 
-  const handleCategoryToggle = (category: string) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(selectedCategories.filter(cat => cat !== category));
-    } else {
-      setSelectedCategories([...selectedCategories, category]);
+  const handleCategoryToggle = (categoryName: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(categoryName)
+        ? prev.filter((name) => name !== categoryName)
+        : [...prev, categoryName]
+    );
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const queryParams = new URLSearchParams();
+
+    if (searchQuery) {
+      queryParams.append("q", searchQuery);
     }
-  };
 
-  const handleToolToggle = (tool: string) => {
-    if (selectedTools.includes(tool)) {
-      setSelectedTools(selectedTools.filter(t => t !== tool));
-    } else {
-      setSelectedTools([...selectedTools, tool]);
+    if (selectedCategories.length > 0) {
+      queryParams.append("categories", selectedCategories.join(","));
     }
+
+    if (selectedTools.length > 0) {
+      queryParams.append("tools", selectedTools.join(","));
+    }
+
+    if (setupTime !== "any") {
+      queryParams.append("setupTime", setupTime);
+    }
+
+    navigate(`/search-results?${queryParams.toString()}`);
   };
 
-  // Function to render star ratings
-  const renderStars = (rating: number) => {
-    return Array(5)
-      .fill(0)
-      .map((_, i) => (
-        <Star
-          key={i}
-          className={`h-4 w-4 ${
-            i < Math.floor(rating)
-              ? "text-yellow-400 fill-yellow-400"
-              : i < rating
-              ? "text-yellow-400 fill-yellow-400 opacity-50"
-              : "text-gray-300"
-          }`}
-        />
-      ));
+  const handleToolToggle = (toolName: string) => {
+    setSelectedTools((prev) =>
+      prev.includes(toolName)
+        ? prev.filter((name) => name !== toolName)
+        : [...prev, toolName]
+    );
+  };
+
+  const renderCategoryIcon = (categoryName: string) => {
+    const category = categoryDefinitions[categoryName as keyof typeof categoryDefinitions];
+    if (category && category.icon) {
+      return <category.icon className="h-5 w-5 mr-2" />;
+    }
+    return null;
   };
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <div className="pt-16 md:pt-24">
-        {/* Hero section with search */}
-        <div className="bg-gradient-to-r from-primary/10 to-secondary/10 py-12 mb-8">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center mb-8">
-              <h1 className="text-3xl md:text-4xl font-bold mb-4">Find the Perfect AI Assistant for Your Business</h1>
-              <p className="text-lg text-gray-600">
-                Tell us what you need help with, and we'll match you with AI agents that can solve your business challenges.
-              </p>
+      <div className="bg-gray-50 py-12 md:py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center mb-8 md:mb-12">
+            <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">
+              Find the Perfect AI Agent for Your Needs
+            </h1>
+            <p className="text-gray-600 text-lg">
+              Explore a wide range of AI agents designed to automate tasks, improve productivity, and enhance your business processes.
+            </p>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="max-w-2xl mx-auto mb-8 md:mb-12">
+            <div className="relative">
+              <Input
+                type="text"
+                placeholder="Search for AI agents..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="rounded-full py-3 px-6 pr-12"
+              />
+              <Button
+                type="submit"
+                variant="ghost"
+                size="icon"
+                className="absolute right-1 top-1/2 transform -translate-y-1/2 rounded-full hover:bg-gray-100"
+              >
+                <Search className="h-5 w-5" />
+              </Button>
+            </div>
+          </form>
+          
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold text-gray-700">
+                Popular Searches
+              </h2>
+              <button 
+                className="text-primary text-sm hover:underline focus:outline-none"
+                onClick={() => setShowFilters(!showFilters)}
+              >
+                {showFilters ? (
+                  <>
+                    Hide Filters
+                    <ChevronDown className="h-4 w-4 ml-1 inline-block transform rotate-180" />
+                  </>
+                ) : (
+                  <>
+                    Show Filters
+                    <ChevronDown className="h-4 w-4 ml-1 inline-block" />
+                  </>
+                )}
+              </button>
             </div>
             
-            <div className="max-w-2xl mx-auto relative mb-4">
-              <div className="relative">
-                <Input
-                  type="text"
-                  placeholder="Describe what you need help with in your business..."
-                  className="pr-20 pl-12 py-6 text-lg rounded-full border-2 focus:border-primary/50 h-16"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                >
-                  <Mic className="h-5 w-5 text-gray-500" />
-                </Button>
-              </div>
-            </div>
-            
-            <div className="flex flex-wrap justify-center gap-2 text-sm text-gray-500 max-w-2xl mx-auto">
-              <span>Try:</span>
-              {examplePrompts.map((prompt, index) => (
-                <button
-                  key={index}
-                  className="hover:text-primary hover:underline transition-colors cursor-pointer"
+            <div className="flex flex-wrap gap-4 justify-center">
+              {examplePrompts.map((prompt) => (
+                <Button
+                  key={prompt}
+                  variant="outline"
+                  className="rounded-full"
                   onClick={() => handlePromptClick(prompt)}
                 >
-                  "{prompt}"
-                </button>
+                  {prompt}
+                </Button>
               ))}
             </div>
           </div>
         </div>
-        
-        <div className="container mx-auto px-4 pb-16">
-          {/* Filters */}
-          <div className="mb-8">
-            <div className="flex justify-between items-center mb-4">
-              <div className="flex items-center gap-2">
-                <Filter className="h-5 w-5" />
-                <h2 className="text-xl font-medium">Refine Results</h2>
-              </div>
-              <Button 
-                variant="ghost" 
-                className="text-sm flex items-center gap-1"
-                onClick={() => setShowFilters(!showFilters)}
-              >
-                {showFilters ? "Hide Filters" : "Show All Filters"}
-                <ChevronDown className={`h-4 w-4 transition-transform ${showFilters ? "rotate-180" : ""}`} />
-              </Button>
-            </div>
+      </div>
+      
+      <div className={`bg-white py-8 ${showFilters ? 'block' : 'hidden'}`}>
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-6">
+              Filter Your Results
+            </h2>
             
-            {showFilters && (
-              <div className="bg-white p-6 rounded-lg shadow-sm border">
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {/* Price Range */}
-                  <div>
-                    <h3 className="font-medium mb-3">Price Range</h3>
-                    <div className="px-2">
-                      <Slider 
-                        value={priceRange} 
-                        onValueChange={setPriceRange}
-                        max={100}
-                        step={1}
-                        className="mb-2"
-                      />
-                      <div className="flex justify-between text-sm text-gray-500">
-                        <span>$</span>
-                        <span>$$</span>
-                        <span>$$$</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Setup Time */}
-                  <div>
-                    <h3 className="font-medium mb-3">Time to Implement</h3>
-                    <ToggleGroup 
-                      type="single" 
-                      value={setupTime}
-                      onValueChange={(value) => {
-                        if (value) setSetupTime(value);
-                      }}
-                      className="flex flex-wrap gap-2"
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-lg font-medium text-gray-700 mb-3">
+                  Categories
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {categories.map((category) => (
+                    <Button
+                      key={category.name}
+                      variant={selectedCategories.includes(category.name) ? "default" : "outline"}
+                      className="rounded-full text-sm"
+                      onClick={() => handleCategoryToggle(category.name)}
                     >
-                      <ToggleGroupItem value="quick" className="text-xs">
-                        Quick Setup
-                      </ToggleGroupItem>
-                      <ToggleGroupItem value="some" className="text-xs">
-                        Some Setup
-                      </ToggleGroupItem>
-                      <ToggleGroupItem value="custom" className="text-xs">
-                        Custom Setup
-                      </ToggleGroupItem>
-                      <ToggleGroupItem value="any" className="text-xs">
-                        Any
-                      </ToggleGroupItem>
-                    </ToggleGroup>
-                  </div>
-                  
-                  {/* Business Categories */}
-                  <div>
-                    <h3 className="font-medium mb-3">Business Categories</h3>
-                    <div className="grid grid-cols-2 gap-2">
-                      {businessCategories.slice(0, 6).map((category) => (
-                        <div key={category} className="flex items-center space-x-2">
-                          <Checkbox 
-                            id={`category-${category}`}
-                            checked={selectedCategories.includes(category)}
-                            onCheckedChange={() => handleCategoryToggle(category)}
-                          />
-                          <label
-                            htmlFor={`category-${category}`}
-                            className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                          >
-                            {category}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                    {businessCategories.length > 6 && (
-                      <Button variant="link" className="text-xs p-0 h-auto mt-2">
-                        Show all categories
-                      </Button>
-                    )}
-                  </div>
-                  
-                  {/* Works With */}
-                  <div className="md:col-span-2 lg:col-span-3">
-                    <h3 className="font-medium mb-3">Works With</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {businessTools.map((tool) => (
-                        <Button
-                          key={tool}
-                          variant={selectedTools.includes(tool) ? "default" : "outline"}
-                          className="text-xs h-8"
-                          onClick={() => handleToolToggle(tool)}
-                        >
-                          {tool}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-          
-          {/* Agent Cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockAgents.map((agent) => (
-              <Card key={agent.id} className="overflow-hidden transition-all hover:shadow-md">
-                <CardHeader className="p-0">
-                  <div className="relative h-40 overflow-hidden">
-                    <img 
-                      src={agent.imageUrl} 
-                      alt={agent.name} 
-                      className="w-full h-full object-cover"
-                    />
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      className="absolute top-2 right-2 bg-white/80 hover:bg-white rounded-full"
-                    >
-                      <BookmarkPlus className="h-4 w-4" />
+                      {renderCategoryIcon(category.name)}
+                      {category.name}
                     </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <CardTitle className="text-xl mb-2">{agent.name}</CardTitle>
-                  <p className="text-gray-600 mb-4">{agent.description}</p>
-                  
-                  <div className="flex items-center gap-1 mb-2">
-                    <div className="flex">
-                      {renderStars(agent.rating)}
-                    </div>
-                    <span className="text-sm text-gray-500 ml-1">
-                      ({agent.rating}) • {agent.reviews} reviews
-                    </span>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                      {agent.priceRange}
-                    </span>
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                      {agent.setupTime}
-                    </span>
-                  </div>
-                  
-                  <div className="mb-2">
-                    <p className="text-sm text-gray-500 mb-1">Works with:</p>
-                    <div className="flex flex-wrap gap-1">
-                      {agent.worksWithTools.map((tool) => (
-                        <span 
-                          key={tool} 
-                          className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-50 text-gray-600"
-                        >
-                          {tool}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </CardContent>
-                <CardFooter className="px-6 py-4 border-t bg-gray-50 flex justify-between">
-                  <Button variant="outline" size="sm" asChild>
-                    <Link to={`/agent/${agent.id}`} className="flex items-center">
-                      Learn More
-                      <ArrowRight className="ml-1 h-4 w-4" />
-                    </Link>
-                  </Button>
-                  <Button size="sm">Start Setup</Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-          
-          {/* Not finding what you need section */}
-          <div className="mt-12 bg-gray-50 rounded-lg p-6 border border-gray-200">
-            <div className="flex flex-col md:flex-row gap-6 items-center">
-              <div className="flex-shrink-0">
-                <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center">
-                  <HelpCircle className="h-8 w-8 text-primary" />
+                  ))}
                 </div>
               </div>
-              <div className="flex-grow text-center md:text-left">
-                <h3 className="text-xl font-medium mb-2">Not finding what you need?</h3>
-                <p className="text-gray-600 mb-4">
-                  Our team of AI experts can help you find or build a custom solution for your specific business needs.
-                </p>
-                <Button asChild>
-                  <Link to="/request-custom-solution">Request Custom Solution</Link>
-                </Button>
+              
+              <div>
+                <h3 className="text-lg font-medium text-gray-700 mb-3">
+                  Tools & Integrations
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {Object.values(categoryDefinitions).flatMap(category => category.tools).map((tool) => (
+                    <Button
+                      key={tool}
+                      variant={selectedTools.includes(tool) ? "default" : "outline"}
+                      className="rounded-full text-sm"
+                      onClick={() => handleToolToggle(tool)}
+                    >
+                      {tool}
+                    </Button>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-          
-          {/* Popular with businesses like yours */}
-          <div className="mt-12">
-            <div className="flex items-center gap-2 mb-6">
-              <TrendingUp className="h-5 w-5 text-primary" />
-              <h2 className="text-xl font-medium">Popular with businesses like yours</h2>
+            
+            <div className="mt-6">
+              <h3 className="text-lg font-medium text-gray-700 mb-3">
+                Setup Time
+              </h3>
+              <Select value={setupTime} onValueChange={setSetupTime}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Any" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="any">Any</SelectItem>
+                  <SelectItem value="quick">Quick Setup (minutes)</SelectItem>
+                  <SelectItem value="moderate">Moderate Setup (hours)</SelectItem>
+                  <SelectItem value="complex">Complex Setup (days)</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-4">
-              {mockAgents.slice(0, 3).map((agent) => (
-                <div key={agent.id} className="flex items-center gap-4 p-4 rounded-lg border hover:shadow-sm transition-shadow">
-                  <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-                    <img 
-                      src={agent.imageUrl} 
-                      alt={agent.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-medium">{agent.name}</h3>
-                    <div className="flex items-center gap-1 mt-1">
-                      <div className="flex">
-                        {renderStars(agent.rating)}
-                      </div>
-                      <span className="text-xs text-gray-500">({agent.rating})</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          {/* Recently viewed */}
-          <div className="mt-12">
-            <div className="flex items-center gap-2 mb-6">
-              <Clock className="h-5 w-5 text-primary" />
-              <h2 className="text-xl font-medium">Recently viewed</h2>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-4">
-              {mockAgents.slice(1, 4).reverse().map((agent) => (
-                <div key={agent.id} className="flex items-center gap-4 p-4 rounded-lg border hover:shadow-sm transition-shadow">
-                  <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-                    <img 
-                      src={agent.imageUrl} 
-                      alt={agent.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="font-medium">{agent.name}</h3>
-                    <p className="text-xs text-gray-500 mt-1 line-clamp-1">
-                      {agent.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
+            <div className="mt-6">
+              <Button onClick={handleSubmit} className="w-full rounded-full">
+                Apply Filters
+              </Button>
             </div>
           </div>
         </div>
