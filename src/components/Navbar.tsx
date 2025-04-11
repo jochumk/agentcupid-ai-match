@@ -51,9 +51,6 @@ const Navbar = () => {
               </div>
             </div>
           </Collapsible>
-          <Link to="/find-agents" className="text-sm font-medium hover:text-primary">
-            Find AI Agents
-          </Link>
           <Link to="/pricing" className="text-sm font-medium hover:text-primary">
             Pricing
           </Link>
@@ -104,9 +101,6 @@ const Navbar = () => {
               </div>
             </Collapsible>
             <div className="flex flex-col space-y-2">
-              <Link to="/find-agents" className="py-2 hover:text-primary">
-                Find AI Agents
-              </Link>
               <Link to="/pricing" className="py-2 hover:text-primary">
                 Pricing
               </Link>
