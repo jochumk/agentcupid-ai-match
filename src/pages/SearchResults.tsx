@@ -51,6 +51,25 @@ import {
 
 const emailAgents = [
   {
+    id: 7,
+    name: "AI Email Intelligence",
+    description: "Advanced email analysis system that processes customer inquiries, detects sentiment, categorizes content, and provides suggested responses with a powerful API for seamless integration.",
+    rating: 4.9,
+    reviews: 219,
+    price: 129,
+    priceModel: "monthly",
+    setupDifficulty: "Easy",
+    userCapacity: "1-200",
+    responseTime: "Instant",
+    integrations: ["Gmail", "Outlook", "Zendesk", "Intercom", "Slack", "API"],
+    capabilities: ["Auto-categorization", "Sentiment analysis", "Multilingual", "Templates", "Customizable responses", "Priority detection"],
+    imageUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80",
+    popularityScore: 97,
+    timeSaving: "5.2 hours/day",
+    costSaving: "$3,300/month",
+    externalUrl: "https://ai-email-intelligence-drakedd.replit.app"
+  },
+  {
     id: 1,
     name: "EmailMaster Pro",
     description: "Automatically respond to customer support emails using your company's knowledge base with sentiment analysis and multi-language support",
@@ -277,6 +296,10 @@ const SearchResults = () => {
     } else {
       setCapabilities([...capabilities, capability]);
     }
+  };
+
+  const handleOpenExternalAgent = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   const renderStars = (rating: number) => {
@@ -741,11 +764,17 @@ const SearchResults = () => {
                             </div>
                             
                             <div className="flex gap-3">
-                              <Button size="sm" asChild>
-                                <Link to={`/agent/${filteredAgents[0].id}`}>
-                                  View Details
-                                </Link>
-                              </Button>
+                              {filteredAgents[0].externalUrl ? (
+                                <Button size="sm" onClick={() => handleOpenExternalAgent(filteredAgents[0].externalUrl as string)}>
+                                  Try It Now
+                                </Button>
+                              ) : (
+                                <Button size="sm" asChild>
+                                  <Link to={`/agent/${filteredAgents[0].id}`}>
+                                    View Details
+                                  </Link>
+                                </Button>
+                              )}
                               
                               <Button 
                                 variant="outline" 
@@ -847,12 +876,24 @@ const SearchResults = () => {
                             </div>
                           </CardContent>
                           <CardFooter className="px-5 py-3 border-t bg-gray-50 flex justify-between">
-                            <Button variant="outline" size="sm" asChild>
-                              <Link to={`/agent/${agent.id}`} className="flex items-center">
-                                View Details
+                            {agent.externalUrl ? (
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                onClick={() => handleOpenExternalAgent(agent.externalUrl as string)}
+                                className="flex items-center"
+                              >
+                                Try It Now
                                 <ArrowRight className="ml-1 h-3 w-3" />
-                              </Link>
-                            </Button>
+                              </Button>
+                            ) : (
+                              <Button variant="outline" size="sm" asChild>
+                                <Link to={`/agent/${agent.id}`} className="flex items-center">
+                                  View Details
+                                  <ArrowRight className="ml-1 h-3 w-3" />
+                                </Link>
+                              </Button>
+                            )}
                             <Button size="sm">Quick Setup</Button>
                           </CardFooter>
                         </Card>
@@ -925,11 +966,20 @@ const SearchResults = () => {
                                 </div>
                                 
                                 <div className="flex gap-3 mt-auto">
-                                  <Button size="sm" asChild>
-                                    <Link to={`/agent/${agent.id}`}>
-                                      View Details
-                                    </Link>
-                                  </Button>
+                                  {agent.externalUrl ? (
+                                    <Button 
+                                      size="sm" 
+                                      onClick={() => handleOpenExternalAgent(agent.externalUrl as string)}
+                                    >
+                                      Try It Now
+                                    </Button>
+                                  ) : (
+                                    <Button size="sm" asChild>
+                                      <Link to={`/agent/${agent.id}`}>
+                                        View Details
+                                      </Link>
+                                    </Button>
+                                  )}
                                   
                                   <Button 
                                     variant="outline" 

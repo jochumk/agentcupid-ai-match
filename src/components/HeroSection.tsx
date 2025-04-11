@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 
 const HeroSection = () => {
   return (
@@ -33,6 +33,16 @@ const HeroSection = () => {
             >
               <Link to="/developer/dashboard">For AI Creators</Link>
             </Button>
+          </div>
+          <div className="mt-8">
+            <Link 
+              to="/search-results?q=Answer%20customer%20emails%20automatically" 
+              className="inline-flex items-center text-primary hover:underline text-sm gap-1.5"
+            >
+              <Mail className="h-4 w-4" />
+              New: Try our AI Email Intelligence Agent
+              <ArrowRight className="h-3 w-3" />
+            </Link>
           </div>
         </div>
       </div>
