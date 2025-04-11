@@ -39,12 +39,12 @@ import {
   ThumbsUp,
   CreditCard,
   Star,
+  HandshakeIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-// Mock data for a single inquiry
 const mockInquiryData = {
   id: "INQ-001",
   companyName: "TechCorp Solutions",
@@ -106,6 +106,7 @@ const InquiryDetail = () => {
     cost: "",
     experience: "",
   });
+  const [isContactBlurred, setIsContactBlurred] = useState(true);
   
   const handleSubmitQuestion = (e) => {
     e.preventDefault();
@@ -129,7 +130,6 @@ const InquiryDetail = () => {
     
     toast.success("Your proposal has been submitted successfully!");
     
-    // Reset form after submission
     setProposalData({
       solution: "",
       timeline: "",
@@ -137,7 +137,6 @@ const InquiryDetail = () => {
       experience: "",
     });
     
-    // Switch back to details tab
     setActiveTab("details");
   };
   
@@ -233,7 +232,6 @@ const InquiryDetail = () => {
             </TabsTrigger>
           </TabsList>
           
-          {/* Project Details Tab */}
           <TabsContent value="details" className="space-y-6">
             <Card>
               <CardHeader>
@@ -332,26 +330,48 @@ const InquiryDetail = () => {
                       {inquiry.contactName.split(" ").map(n => n[0]).join("")}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="space-y-1">
-                    <h3 className="font-medium">{inquiry.contactName}</h3>
-                    <div className="text-sm text-muted-foreground">
-                      {inquiry.companyName}
+                  <div className="space-y-1 flex-1">
+                    <h3 className="font-medium filter blur-sm select-none">
+                      {isContactBlurred ? inquiry.contactName : inquiry.contactName}
+                    </h3>
+                    <div className="text-sm text-muted-foreground filter blur-sm select-none">
+                      {isContactBlurred ? inquiry.companyName : inquiry.companyName}
                     </div>
-                    <div className="flex space-x-4 text-sm">
+                    <div className="flex space-x-4 text-sm filter blur-sm select-none">
                       <span className="flex items-center">
                         <User className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
-                        {inquiry.contactEmail}
+                        {isContactBlurred ? inquiry.contactEmail : inquiry.contactEmail}
                       </span>
                       {inquiry.contactPhone && (
                         <span className="flex items-center">
                           <PhoneIcon className="h-3.5 w-3.5 mr-1 text-muted-foreground" />
-                          {inquiry.contactPhone}
+                          {isContactBlurred ? inquiry.contactPhone : inquiry.contactPhone}
                         </span>
                       )}
                     </div>
                   </div>
                 </div>
               </CardContent>
+              <CardFooter className="flex justify-end space-x-3">
+                <Button 
+                  variant="secondary" 
+                  size="sm"
+                  onClick={() => setIsContactBlurred(!isContactBlurred)}
+                >
+                  {isContactBlurred ? "Show Contact" : "Hide Contact"}
+                </Button>
+                <Button 
+                  variant="default" 
+                  size="sm"
+                  onClick={() => {
+                    setActiveTab("proposal");
+                    toast.success("You can now submit your proposal");
+                  }}
+                >
+                  <HandshakeIcon className="h-4 w-4 mr-2" />
+                  Make an Offer
+                </Button>
+              </CardFooter>
             </Card>
             
             <Card>
@@ -392,7 +412,6 @@ const InquiryDetail = () => {
             </Card>
           </TabsContent>
           
-          {/* Questions Tab */}
           <TabsContent value="questions" className="space-y-6">
             <Card>
               <CardHeader>
@@ -471,7 +490,6 @@ const InquiryDetail = () => {
             </Card>
           </TabsContent>
           
-          {/* Proposal Tab */}
           <TabsContent value="proposal" className="space-y-6">
             <Card>
               <CardHeader>
@@ -606,6 +624,27 @@ const PhoneIcon = ({ className }) => (
     className={className}
   >
     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+  </svg>
+);
+
+const HandshakeIcon = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M17 12.5L12 7.5L7 12.5" />
+    <path d="M9.5 6.5L12 4L14.5 6.5" />
+    <path d="M14.5 18.5L12 21L9.5 18.5" />
+    <path d="M7 11.5L12 16.5L17 11.5" />
+    <path d="M12 12H12.01" />
   </svg>
 );
 
