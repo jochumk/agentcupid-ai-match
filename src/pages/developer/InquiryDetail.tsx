@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DeveloperLayout from "@/components/developer/DeveloperLayout";
@@ -78,8 +77,7 @@ const mockInquiryData = {
         name: "Alex Johnson",
         avatar: "",
       },
-      answer: "We have about
-      15-20 support staff who would be using the system simultaneously during peak hours.",
+      answer: "We have about 15-20 support staff who would be using the system simultaneously during peak hours.",
       timestamp: "2025-04-09T10:15:00Z",
     },
     {
