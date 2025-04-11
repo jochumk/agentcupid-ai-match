@@ -15,6 +15,7 @@ import AgentManagement from "./pages/developer/AgentManagement";
 import InquiryManagement from "./pages/developer/InquiryManagement";
 import Documentation from "./pages/developer/Documentation";
 
+// Create a new QueryClient instance
 const queryClient = new QueryClient();
 
 const App = () => (
