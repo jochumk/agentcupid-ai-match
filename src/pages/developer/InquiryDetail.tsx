@@ -352,14 +352,7 @@ const InquiryDetail = () => {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="flex justify-end space-x-3">
-                <Button 
-                  variant="secondary" 
-                  size="sm"
-                  onClick={() => setIsContactBlurred(!isContactBlurred)}
-                >
-                  {isContactBlurred ? "Show Contact" : "Hide Contact"}
-                </Button>
+              <CardFooter className="flex justify-end">
                 <Button 
                   variant="default" 
                   size="sm"
