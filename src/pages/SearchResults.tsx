@@ -20,7 +20,8 @@ import {
   Globe,
   MessageSquare,
   Zap,
-  BadgeCheck
+  BadgeCheck,
+  ChevronUp
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -53,7 +54,7 @@ const emailAgents = [
   {
     id: 7,
     name: "AI Email Intelligence",
-    description: "Advanced email analysis system that processes customer inquiries, detects sentiment, categorizes content, and provides suggested responses with a powerful API for seamless integration.",
+    description: "Email automation helps you classify the emails that you have, as well as creating actions based on what type of email it is, giving you the opportunity to act fast depending on the context of the email, for example, when there is a purchase request, it will automatically create an order to your hubspot and generate an automatic email for your customer including a customizable email, as well as the receipt of the purchase",
     rating: 4.9,
     reviews: 219,
     price: 129,
@@ -198,7 +199,8 @@ const SearchResults = () => {
   const [selectedAgents, setSelectedAgents] = useState<number[]>([]);
   const [showFilters, setShowFilters] = useState(true);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
-  
+  const [expandedDescriptions, setExpandedDescriptions] = useState<number[]>([]);
+
   const [filteredAgents, setFilteredAgents] = useState(emailAgents);
 
   const resetFilters = () => {
@@ -219,6 +221,14 @@ const SearchResults = () => {
       if (selectedAgents.length < 3) {
         setSelectedAgents([...selectedAgents, agentId]);
       }
+    }
+  };
+
+  const toggleDescriptionExpand = (agentId: number) => {
+    if (expandedDescriptions.includes(agentId)) {
+      setExpandedDescriptions(expandedDescriptions.filter(id => id !== agentId));
+    } else {
+      setExpandedDescriptions([...expandedDescriptions, agentId]);
     }
   };
 
@@ -719,7 +729,23 @@ const SearchResults = () => {
                         <div className="grid md:grid-cols-3 gap-6">
                           <div className="p-6 md:col-span-2">
                             <CardTitle className="text-xl mb-2">{filteredAgents[0].name}</CardTitle>
-                            <p className="text-gray-600 mb-4">{filteredAgents[0].description}</p>
+                            <div className="relative">
+                              <p className="text-gray-600 mb-4">
+                                {expandedDescriptions.includes(filteredAgents[0].id) 
+                                  ? filteredAgents[0].description
+                                  : `${filteredAgents[0].description.substring(0, 200)}...`}
+                              </p>
+                              <Button 
+                                variant="link" 
+                                size="sm" 
+                                className="p-0 h-auto text-primary flex items-center"
+                                onClick={() => toggleDescriptionExpand(filteredAgents[0].id)}
+                              >
+                                {expandedDescriptions.includes(filteredAgents[0].id) 
+                                  ? <>Show less <ChevronUp className="ml-1 h-3 w-3" /></>
+                                  : <>Show more <ChevronDown className="ml-1 h-3 w-3" /></>}
+                              </Button>
+                            </div>
                             
                             <div className="flex items-center gap-1 mb-4">
                               <div className="flex">
@@ -766,7 +792,7 @@ const SearchResults = () => {
                             <div className="flex gap-3">
                               {filteredAgents[0].externalUrl ? (
                                 <Button size="sm" onClick={() => handleOpenExternalAgent(filteredAgents[0].externalUrl as string)}>
-                                  Try It Now
+                                  Get the Agent
                                 </Button>
                               ) : (
                                 <Button size="sm" asChild>
@@ -883,7 +909,7 @@ const SearchResults = () => {
                                 onClick={() => handleOpenExternalAgent(agent.externalUrl as string)}
                                 className="flex items-center"
                               >
-                                Try It Now
+                                Get the Agent
                                 <ArrowRight className="ml-1 h-3 w-3" />
                               </Button>
                             ) : (
@@ -971,7 +997,7 @@ const SearchResults = () => {
                                       size="sm" 
                                       onClick={() => handleOpenExternalAgent(agent.externalUrl as string)}
                                     >
-                                      Try It Now
+                                      Get the Agent
                                     </Button>
                                   ) : (
                                     <Button size="sm" asChild>
