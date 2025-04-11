@@ -1,9 +1,7 @@
 
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import SearchAssistant from "@/components/search/SearchAssistant";
+import { Input } from "@/components/ui/input";
 
 interface AgentSearchTabProps {
   searchQuery: string;
@@ -26,9 +24,25 @@ export default function AgentSearchTab({
   examplePrompts,
   onPromptClick
 }: AgentSearchTabProps) {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      onSubmit(e);
+    }
+  };
+
   return (
     <div className="space-y-4">
-      <SearchAssistant onSearch={onSearch} initialQuery={searchQuery} />
+      <div className="relative max-w-2xl mx-auto">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+        <Input
+          type="text"
+          placeholder="Search for AI agents..."
+          value={searchQuery}
+          onChange={(e) => onSearch(e.target.value)}
+          onKeyDown={handleKeyDown}
+          className="pl-10 py-6 rounded-full border-2 focus:border-primary shadow-sm text-base"
+        />
+      </div>
       
       <div className="max-w-4xl mx-auto mt-4">
         <div className="flex flex-wrap gap-4 justify-center">
