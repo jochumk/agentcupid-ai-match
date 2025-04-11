@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight, Mail, MessageSquare } from "lucide-react";
 
 const HeroSection = () => {
   return (
@@ -31,16 +31,27 @@ const HeroSection = () => {
               className="border-2 border-primary/70 shadow-[0_0_15px_rgba(155,135,245,0.4)] hover:shadow-[0_0_20px_rgba(155,135,245,0.6)] transition-shadow duration-300" 
               asChild
             >
-              <Link to="/developer/dashboard">For AI Creators</Link>
+              <Link to="/submit-inquiry" className="flex items-center">
+                <MessageSquare className="mr-2 h-4 w-4" />
+                Submit Custom Inquiry
+              </Link>
             </Button>
           </div>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3">
             <Link 
               to="/search-results?q=Answer%20customer%20emails%20automatically" 
               className="inline-flex items-center text-primary hover:underline text-sm gap-1.5"
             >
               <Mail className="h-4 w-4" />
-              New: Try our AI Email Intelligence Agent
+              Try our AI Email Intelligence Agent
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+            <Link 
+              to="/customer/inquiries" 
+              className="inline-flex items-center text-primary hover:underline text-sm gap-1.5"
+            >
+              <MessageSquare className="h-4 w-4" />
+              View My Inquiries
               <ArrowRight className="h-3 w-3" />
             </Link>
           </div>

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Search, MessageSquare } from "lucide-react";
 import { CommandDialog, CommandInput } from "@/components/ui/command";
 
 const Navbar = () => {
@@ -38,8 +38,11 @@ const Navbar = () => {
           <Link to="/pricing" className="text-sm font-medium hover:text-primary">
             Pricing
           </Link>
-          <Link to="/request-custom-solution" className="text-sm font-medium hover:text-primary">
-            Request Custom Solution
+          <Link to="/submit-inquiry" className="text-sm font-medium hover:text-primary">
+            Submit Inquiry
+          </Link>
+          <Link to="/customer/inquiries" className="text-sm font-medium hover:text-primary">
+            My Inquiries
           </Link>
           <Link to="/about" className="text-sm font-medium hover:text-primary">
             About Us
@@ -48,6 +51,9 @@ const Navbar = () => {
             For AI Creators
           </Link>
           <div className="flex space-x-2">
+            <Button variant="outline" size="sm" onClick={() => setIsSearchOpen(true)}>
+              <Search className="h-4 w-4" />
+            </Button>
             <Button asChild>
               <Link to="/signup">Sign up</Link>
             </Button>
@@ -68,8 +74,11 @@ const Navbar = () => {
               <Link to="/pricing" className="py-2 hover:text-primary">
                 Pricing
               </Link>
-              <Link to="/request-custom-solution" className="py-2 hover:text-primary">
-                Request Custom Solution
+              <Link to="/submit-inquiry" className="py-2 hover:text-primary">
+                Submit Inquiry
+              </Link>
+              <Link to="/customer/inquiries" className="py-2 hover:text-primary">
+                My Inquiries
               </Link>
               <Link to="/about" className="py-2 hover:text-primary">
                 About Us
@@ -78,6 +87,10 @@ const Navbar = () => {
                 For AI Creators
               </Link>
               <div className="pt-2 flex flex-col space-y-2">
+                <Button variant="outline" onClick={() => setIsSearchOpen(true)}>
+                  <Search className="h-4 w-4 mr-2" />
+                  Search
+                </Button>
                 <Button asChild>
                   <Link to="/signup">Sign up</Link>
                 </Button>

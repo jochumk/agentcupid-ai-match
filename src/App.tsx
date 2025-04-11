@@ -22,6 +22,13 @@ import ExpertiseForm from "./pages/developer/ExpertiseForm";
 import ExpertisePreview from "./pages/developer/ExpertisePreview";
 import ApiIntegration from "./pages/developer/ApiIntegration";
 
+// New Customer Inquiry System Pages
+import SubmitInquiry from "./pages/SubmitInquiry";
+import CustomerInquiries from "./pages/customer/CustomerInquiries";
+import CustomerInquiryDetail from "./pages/customer/CustomerInquiryDetail";
+import InquiryListing from "./pages/developer/InquiryListing";
+import InquiryDetail from "./pages/developer/InquiryDetail";
+
 // Create a new QueryClient instance
 const queryClient = new QueryClient();
 
@@ -37,6 +44,11 @@ const App = () => (
           <Route path="/search-results" element={<SearchResults />} />
           <Route path="/request-custom-solution" element={<RequestCustomSolution />} />
           
+          {/* Customer Inquiry System Routes */}
+          <Route path="/submit-inquiry" element={<SubmitInquiry />} />
+          <Route path="/customer/inquiries" element={<CustomerInquiries />} />
+          <Route path="/customer/inquiries/:id" element={<CustomerInquiryDetail />} />
+          
           {/* Developer Routes */}
           <Route path="/developer/login" element={<DeveloperLogin />} />
           <Route path="/developer/signup" element={<DeveloperSignup />} />
@@ -44,7 +56,9 @@ const App = () => (
           <Route path="/developer/profile" element={<DeveloperProfile />} />
           <Route path="/developer/agents/new" element={<AgentSubmission />} />
           <Route path="/developer/agents" element={<AgentManagement />} />
-          <Route path="/developer/inquiries" element={<InquiryManagement />} />
+          <Route path="/developer/inquiries" element={<InquiryListing />} />
+          <Route path="/developer/inquiries/:id" element={<InquiryDetail />} />
+          <Route path="/developer/inquiry-management" element={<InquiryManagement />} />
           <Route path="/developer/documentation" element={<Documentation />} />
           <Route path="/developer/api-integration" element={<ApiIntegration />} />
           
