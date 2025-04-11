@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Search, Menu, X, Sparkles } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Command, CommandDialog, CommandInput } from "@/components/ui/command";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,16 +37,20 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          <div 
-            className="relative cursor-pointer group"
-            onClick={() => setIsSearchOpen(true)}
-          >
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <div className="pl-10 pr-10 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 w-[300px] text-sm text-gray-500 flex items-center justify-between">
-              <span>Search AI agents...</span>
-              <Sparkles className="h-4 w-4 text-primary" />
+          <Collapsible>
+            <div 
+              className="relative cursor-pointer group"
+              onClick={() => setIsSearchOpen(true)}
+            >
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+              <div className="pl-10 pr-10 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 w-[300px] text-sm text-gray-500 flex items-center justify-between">
+                <span>Search AI agents...</span>
+                <CollapsibleTrigger className="h-4 w-4 text-primary">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                </CollapsibleTrigger>
+              </div>
             </div>
-          </div>
+          </Collapsible>
           <Link to="/find-agents" className="text-sm font-medium hover:text-primary">
             Find AI Agents
           </Link>
@@ -81,19 +86,23 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white pt-2 pb-4 border-b border-gray-200">
           <div className="container mx-auto px-4 space-y-4">
-            <div 
-              className="relative cursor-pointer"
-              onClick={() => {
-                setIsSearchOpen(true);
-                setIsMenuOpen(false);
-              }}
-            >
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <div className="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-sm text-gray-500 flex items-center justify-between">
-                <span>Search AI agents...</span>
-                <Sparkles className="h-4 w-4 text-primary" />
+            <Collapsible>
+              <div 
+                className="relative cursor-pointer"
+                onClick={() => {
+                  setIsSearchOpen(true);
+                  setIsMenuOpen(false);
+                }}
+              >
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                <div className="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-sm text-gray-500 flex items-center justify-between">
+                  <span>Search AI agents...</span>
+                  <CollapsibleTrigger className="h-4 w-4 text-primary">
+                    <Sparkles className="h-4 w-4 text-primary" />
+                  </CollapsibleTrigger>
+                </div>
               </div>
-            </div>
+            </Collapsible>
             <div className="flex flex-col space-y-2">
               <Link to="/find-agents" className="py-2 hover:text-primary">
                 Find AI Agents

@@ -177,18 +177,19 @@ const SearchAssistant = ({ onSearch, initialQuery = "" }: SearchAssistantProps) 
               >
                 <Mic className={`h-5 w-5 ${isListening ? 'text-primary animate-pulse' : 'text-gray-400'}`} />
               </Button>
-              <CollapsibleTrigger
-                asChild
-                onClick={() => setIsAssistantOpen(!isAssistantOpen)}
-              >
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="rounded-full hover:bg-gray-100"
-                >
-                  <Sparkles className="h-5 w-5 text-primary" />
-                </Button>
-              </CollapsibleTrigger>
+              
+              {/* Wrap the CollapsibleTrigger properly in a Collapsible component */}
+              <Collapsible open={isAssistantOpen} onOpenChange={setIsAssistantOpen}>
+                <CollapsibleTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-full hover:bg-gray-100"
+                  >
+                    <Sparkles className="h-5 w-5 text-primary" />
+                  </Button>
+                </CollapsibleTrigger>
+              </Collapsible>
             </div>
           </div>
           <Button 
@@ -225,13 +226,9 @@ const SearchAssistant = ({ onSearch, initialQuery = "" }: SearchAssistantProps) 
           </div>
         )}
 
-        {/* Expandable AI Assistant */}
-        <Collapsible
-          open={isAssistantOpen}
-          onOpenChange={setIsAssistantOpen}
-          className="mt-2"
-        >
-          <CollapsibleContent className="bg-white rounded-lg shadow-lg p-4 border animate-accordion-down">
+        {/* Move the CollapsibleContent inside the Collapsible component */}
+        <Collapsible open={isAssistantOpen} onOpenChange={setIsAssistantOpen}>
+          <CollapsibleContent className="mt-2 bg-white rounded-lg shadow-lg p-4 border animate-accordion-down">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-medium flex items-center">
                 <Sparkles className="h-5 w-5 mr-2 text-primary" />
