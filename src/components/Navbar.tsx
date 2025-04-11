@@ -2,10 +2,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Search, Menu, X, Sparkles } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Command, CommandDialog, CommandInput } from "@/components/ui/command";
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import { Menu, X } from "lucide-react";
+import { CommandDialog, CommandInput } from "@/components/ui/command";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -37,20 +35,6 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          <Collapsible>
-            <div 
-              className="relative cursor-pointer group"
-              onClick={() => setIsSearchOpen(true)}
-            >
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <div className="pl-10 pr-10 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 w-[300px] text-sm text-gray-500 flex items-center justify-between">
-                <span>Search AI agents...</span>
-                <CollapsibleTrigger className="h-4 w-4 text-primary">
-                  <Sparkles className="h-4 w-4 text-primary" />
-                </CollapsibleTrigger>
-              </div>
-            </div>
-          </Collapsible>
           <Link to="/pricing" className="text-sm font-medium hover:text-primary">
             Pricing
           </Link>
@@ -80,23 +64,6 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white pt-2 pb-4 border-b border-gray-200">
           <div className="container mx-auto px-4 space-y-4">
-            <Collapsible>
-              <div 
-                className="relative cursor-pointer"
-                onClick={() => {
-                  setIsSearchOpen(true);
-                  setIsMenuOpen(false);
-                }}
-              >
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                <div className="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-sm text-gray-500 flex items-center justify-between">
-                  <span>Search AI agents...</span>
-                  <CollapsibleTrigger className="h-4 w-4 text-primary">
-                    <Sparkles className="h-4 w-4 text-primary" />
-                  </CollapsibleTrigger>
-                </div>
-              </div>
-            </Collapsible>
             <div className="flex flex-col space-y-2">
               <Link to="/pricing" className="py-2 hover:text-primary">
                 Pricing
@@ -124,13 +91,11 @@ const Navbar = () => {
       <CommandDialog open={isSearchOpen} onOpenChange={setIsSearchOpen}>
         <div className="p-4">
           <h3 className="text-lg font-medium mb-2 flex items-center">
-            <Sparkles className="h-5 w-5 mr-2 text-primary" />
             AI-Powered Search
           </h3>
           <form onSubmit={handleSearchSubmit} className="space-y-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input 
+              <CommandInput 
                 name="search"
                 placeholder="Describe what you need help with..." 
                 className="pl-10"
