@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { 
   Search, 
   Mic, 
@@ -108,6 +107,7 @@ const FindAgents = () => {
   const [selectedTools, setSelectedTools] = useState<string[]>([]);
   const [setupTime, setSetupTime] = useState<string>("any");
   const [showFilters, setShowFilters] = useState(false);
+  const navigate = useNavigate();
 
   // Example search prompts that rotate
   const examplePrompts = [
@@ -117,6 +117,11 @@ const FindAgents = () => {
     "Manage social media responses",
     "Screen job applications"
   ];
+
+  const handlePromptClick = (prompt: string) => {
+    setSearchQuery(prompt);
+    navigate(`/search-results?query=${encodeURIComponent(prompt)}`);
+  };
 
   const handleCategoryToggle = (category: string) => {
     if (selectedCategories.includes(category)) {
@@ -192,8 +197,8 @@ const FindAgents = () => {
               {examplePrompts.map((prompt, index) => (
                 <button
                   key={index}
-                  className="hover:text-primary hover:underline transition-colors"
-                  onClick={() => setSearchQuery(prompt)}
+                  className="hover:text-primary hover:underline transition-colors cursor-pointer"
+                  onClick={() => handlePromptClick(prompt)}
                 >
                   "{prompt}"
                 </button>
