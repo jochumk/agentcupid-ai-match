@@ -26,7 +26,7 @@ const HeroSection = () => {
               </Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <Link to="/sell-your-agent">Sell Your AI Agent</Link>
+              <Link to="/developer/login">For AI Creators</Link>
             </Button>
           </div>
         </div>

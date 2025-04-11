@@ -38,6 +38,9 @@ const Navbar = () => {
           <Link to="/about" className="text-sm font-medium hover:text-primary">
             About Us
           </Link>
+          <Link to="/developer/dashboard" className="text-sm font-medium hover:text-primary">
+            For AI Creators
+          </Link>
           <div className="flex space-x-2">
             <Button variant="outline" asChild>
               <Link to="/login">Log in</Link>
@@ -75,6 +78,9 @@ const Navbar = () => {
               </Link>
               <Link to="/about" className="py-2 hover:text-primary">
                 About Us
+              </Link>
+              <Link to="/developer/dashboard" className="py-2 hover:text-primary">
+                For AI Creators
               </Link>
               <div className="pt-2 flex flex-col space-y-2">
                 <Button variant="outline" asChild>
