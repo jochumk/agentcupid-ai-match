@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import DeveloperLogin from "./pages/developer/DeveloperLogin";
 import DeveloperSignup from "./pages/developer/DeveloperSignup";
 import DeveloperDashboard from "./pages/developer/DeveloperDashboard";
+import DeveloperProfile from "./pages/developer/DeveloperProfile";
 import AgentSubmission from "./pages/developer/AgentSubmission";
 import AgentManagement from "./pages/developer/AgentManagement";
 import InquiryManagement from "./pages/developer/InquiryManagement";
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/developer/login" element={<DeveloperLogin />} />
           <Route path="/developer/signup" element={<DeveloperSignup />} />
           <Route path="/developer/dashboard" element={<DeveloperDashboard />} />
+          <Route path="/developer/profile" element={<DeveloperProfile />} />
           <Route path="/developer/agents/new" element={<AgentSubmission />} />
           <Route path="/developer/agents" element={<AgentManagement />} />
           <Route path="/developer/inquiries" element={<InquiryManagement />} />
