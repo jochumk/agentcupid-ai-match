@@ -20,7 +20,11 @@ const HeroSection = () => {
           </p>
           
           <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" className="h-14 px-6 text-lg" asChild>
+            <Button 
+              size="lg" 
+              className="h-14 px-6 text-lg w-full sm:w-auto min-w-[180px]" 
+              asChild
+            >
               <Link to="/find-agents" className="flex items-center">
                 <Search className="mr-2 h-5 w-5" />
                 Find AI
@@ -29,7 +33,7 @@ const HeroSection = () => {
             <Button 
               size="lg" 
               variant="outline" 
-              className="h-14 px-6 text-lg border-2 border-primary/70 shadow-[0_0_15px_rgba(155,135,245,0.4)] hover:shadow-[0_0_20px_rgba(155,135,245,0.6)] transition-shadow duration-300" 
+              className="h-14 px-6 text-lg w-full sm:w-auto min-w-[180px] border-2 border-primary/70 shadow-[0_0_15px_rgba(155,135,245,0.4)] hover:shadow-[0_0_20px_rgba(155,135,245,0.6)] transition-shadow duration-300" 
               asChild
             >
               <Link to="/developer/dashboard" className="flex items-center">
