@@ -236,13 +236,15 @@ const InquiryManagement = () => {
                   {inquiries.filter(i => i.status === "unread").length} unread messages
                 </CardDescription>
                 <div className="mt-2 space-y-2">
-                  <Input
-                    placeholder="Search inquiries..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full"
-                    icon={Search}
-                  />
+                  <div className="relative">
+                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search inquiries..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full pl-8"
+                    />
+                  </div>
                   <Select
                     value={statusFilter}
                     onValueChange={setStatusFilter}
@@ -311,7 +313,7 @@ const InquiryManagement = () => {
                                   inquiry.status === "unread"
                                     ? "default"
                                     : inquiry.status === "responded"
-                                    ? "success"
+                                    ? "secondary"
                                     : inquiry.status === "scheduled"
                                     ? "outline"
                                     : "secondary"

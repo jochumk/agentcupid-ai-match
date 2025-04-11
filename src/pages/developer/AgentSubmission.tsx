@@ -34,6 +34,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, Upload } from "lucide-react";
 
