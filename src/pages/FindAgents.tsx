@@ -168,6 +168,7 @@ const FindAgents = () => {
   const [budget, setBudget] = useState<string>("any");
   const [specialization, setSpecialization] = useState<string>("any");
   const [experience, setExperience] = useState<string>("any");
+  const [businessDescription, setBusinessDescription] = useState<string>("");
   const navigate = useNavigate();
 
   const examplePrompts = [
@@ -229,8 +230,16 @@ const FindAgents = () => {
         queryParams.append("setupTime", setupTime);
       }
     } else if (searchTab === "expertise" && expertiseSearchQuery) {
+      if (!expertiseSearchQuery.trim() && !businessDescription.trim()) {
+        return;
+      }
+      
       queryParams.append("q", expertiseSearchQuery);
       queryParams.append("type", "expertise");
+      
+      if (businessDescription.trim()) {
+        queryParams.append("description", businessDescription);
+      }
 
       if (industry !== "any") {
         queryParams.append("industry", industry);
@@ -238,6 +247,20 @@ const FindAgents = () => {
 
       if (budget !== "any") {
         queryParams.append("budget", budget);
+      }
+      
+      if (businessDescription.trim()) {
+        const formData = {
+          type: "expertise",
+          title: expertiseSearchQuery || "Need AI expertise",
+          description: businessDescription,
+          industry,
+          budget
+        };
+        
+        sessionStorage.setItem("inquiryData", JSON.stringify(formData));
+        navigate("/submit-inquiry?from=expertise");
+        return;
       }
     } else if (searchTab === "developers" && developerSearchQuery) {
       queryParams.append("q", developerSearchQuery);
@@ -301,6 +324,9 @@ const FindAgents = () => {
                 experience={budget}
                 onExperienceChange={setBudget}
                 onSubmit={handleSubmit}
+                businessDescription={businessDescription}
+                onBusinessDescriptionChange={setBusinessDescription}
+                isExpertiseTab={true}
               />
             }
             developerTabContent={
