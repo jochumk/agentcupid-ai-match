@@ -15,6 +15,7 @@ import AgentSubmission from "./pages/developer/AgentSubmission";
 import AgentManagement from "./pages/developer/AgentManagement";
 import InquiryManagement from "./pages/developer/InquiryManagement";
 import Documentation from "./pages/developer/Documentation";
+import RequestCustomSolution from "./pages/RequestCustomSolution";
 
 // Create a new QueryClient instance
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/find-agents" element={<FindAgents />} />
+          <Route path="/request-custom-solution" element={<RequestCustomSolution />} />
           
           {/* Developer Routes */}
           <Route path="/developer/login" element={<DeveloperLogin />} />

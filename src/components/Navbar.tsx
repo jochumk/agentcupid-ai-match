@@ -35,6 +35,9 @@ const Navbar = () => {
           <Link to="/pricing" className="text-sm font-medium hover:text-primary">
             Pricing
           </Link>
+          <Link to="/request-custom-solution" className="text-sm font-medium hover:text-primary">
+            Request Custom Solution
+          </Link>
           <Link to="/about" className="text-sm font-medium hover:text-primary">
             About Us
           </Link>
@@ -75,6 +78,9 @@ const Navbar = () => {
               </Link>
               <Link to="/pricing" className="py-2 hover:text-primary">
                 Pricing
+              </Link>
+              <Link to="/request-custom-solution" className="py-2 hover:text-primary">
+                Request Custom Solution
               </Link>
               <Link to="/about" className="py-2 hover:text-primary">
                 About Us

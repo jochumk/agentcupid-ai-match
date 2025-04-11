@@ -398,7 +398,9 @@ const FindAgents = () => {
                 <p className="text-gray-600 mb-4">
                   Our team of AI experts can help you find or build a custom solution for your specific business needs.
                 </p>
-                <Button>Get Personalized Help</Button>
+                <Button asChild>
+                  <Link to="/request-custom-solution">Request Custom Solution</Link>
+                </Button>
               </div>
             </div>
           </div>
