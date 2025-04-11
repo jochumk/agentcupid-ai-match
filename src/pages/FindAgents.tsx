@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
@@ -33,6 +34,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import SearchAssistant from "@/components/search/SearchAssistant";
 
 const categoryDefinitions = {
@@ -162,10 +165,14 @@ const categories = Object.values(categoryDefinitions);
 
 const FindAgents = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [devSearchQuery, setDevSearchQuery] = useState("");
+  const [searchTab, setSearchTab] = useState<"agents" | "developers">("agents");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTools, setSelectedTools] = useState<string[]>([]);
   const [setupTime, setSetupTime] = useState<string>("any");
   const [showFilters, setShowFilters] = useState(false);
+  const [industry, setIndustry] = useState<string>("any");
+  const [budget, setBudget] = useState<string>("any");
   const navigate = useNavigate();
 
   const examplePrompts = [
@@ -177,12 +184,21 @@ const FindAgents = () => {
   ];
 
   const handlePromptClick = (prompt: string) => {
-    setSearchQuery(prompt);
-    navigate(`/search-results?q=${encodeURIComponent(prompt)}`);
+    if (searchTab === "agents") {
+      setSearchQuery(prompt);
+      navigate(`/search-results?q=${encodeURIComponent(prompt)}&type=agents`);
+    } else {
+      setDevSearchQuery(prompt);
+      navigate(`/search-results?q=${encodeURIComponent(prompt)}&type=developers`);
+    }
   };
 
   const handleSearch = (query: string) => {
-    setSearchQuery(query);
+    if (searchTab === "agents") {
+      setSearchQuery(query);
+    } else {
+      setDevSearchQuery(query);
+    }
   };
 
   const handleCategoryToggle = (categoryName: string) => {
@@ -197,20 +213,32 @@ const FindAgents = () => {
     e.preventDefault();
     const queryParams = new URLSearchParams();
 
-    if (searchQuery) {
+    if (searchTab === "agents" && searchQuery) {
       queryParams.append("q", searchQuery);
-    }
+      queryParams.append("type", "agents");
 
-    if (selectedCategories.length > 0) {
-      queryParams.append("categories", selectedCategories.join(","));
-    }
+      if (selectedCategories.length > 0) {
+        queryParams.append("categories", selectedCategories.join(","));
+      }
 
-    if (selectedTools.length > 0) {
-      queryParams.append("tools", selectedTools.join(","));
-    }
+      if (selectedTools.length > 0) {
+        queryParams.append("tools", selectedTools.join(","));
+      }
 
-    if (setupTime !== "any") {
-      queryParams.append("setupTime", setupTime);
+      if (setupTime !== "any") {
+        queryParams.append("setupTime", setupTime);
+      }
+    } else if (searchTab === "developers" && devSearchQuery) {
+      queryParams.append("q", devSearchQuery);
+      queryParams.append("type", "developers");
+
+      if (industry !== "any") {
+        queryParams.append("industry", industry);
+      }
+
+      if (budget !== "any") {
+        queryParams.append("budget", budget);
+      }
     }
 
     navigate(`/search-results?${queryParams.toString()}`);
@@ -240,13 +268,89 @@ const FindAgents = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-8 md:mb-12">
             <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">
-              Find the Perfect AI Agent for Your Needs
+              Find the Perfect Match for Your Needs
             </h1>
             <p className="text-gray-600 text-lg mb-8">
-              Explore a wide range of AI agents designed to automate tasks, improve productivity, and enhance your business processes.
+              Explore a wide range of AI solutions designed to automate tasks, improve productivity, and enhance your business processes.
             </p>
             
-            <SearchAssistant onSearch={handleSearch} initialQuery={searchQuery} />
+            <Tabs 
+              defaultValue="agents" 
+              value={searchTab} 
+              onValueChange={(value) => setSearchTab(value as "agents" | "developers")}
+              className="w-full max-w-xl mx-auto"
+            >
+              <TabsList className="grid w-full grid-cols-2 mb-8">
+                <TabsTrigger value="agents" className="text-base py-3">Find AI Agents</TabsTrigger>
+                <TabsTrigger value="developers" className="text-base py-3">Find AI Developers</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="agents">
+                <SearchAssistant onSearch={handleSearch} initialQuery={searchQuery} />
+              </TabsContent>
+              
+              <TabsContent value="developers">
+                <div className="space-y-4">
+                  <Textarea 
+                    placeholder="Describe your business challenge... 
+Example: We need help automating our customer support workflow by integrating with our existing CRM system..."
+                    value={devSearchQuery}
+                    onChange={(e) => setDevSearchQuery(e.target.value)}
+                    className="min-h-[120px] p-4 text-base"
+                  />
+                  <p className="text-sm text-gray-500 text-left">
+                    The more details you provide, the better matches we can find
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Industry</label>
+                      <Select value={industry} onValueChange={setIndustry}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Industry" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="any">Any Industry</SelectItem>
+                          <SelectItem value="technology">Technology</SelectItem>
+                          <SelectItem value="healthcare">Healthcare</SelectItem>
+                          <SelectItem value="finance">Finance</SelectItem>
+                          <SelectItem value="education">Education</SelectItem>
+                          <SelectItem value="ecommerce">E-commerce</SelectItem>
+                          <SelectItem value="manufacturing">Manufacturing</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Budget Range</label>
+                      <Select value={budget} onValueChange={setBudget}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select Budget" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="any">Any Budget</SelectItem>
+                          <SelectItem value="0-5000">$0 - $5,000</SelectItem>
+                          <SelectItem value="5000-10000">$5,000 - $10,000</SelectItem>
+                          <SelectItem value="10000-25000">$10,000 - $25,000</SelectItem>
+                          <SelectItem value="25000-50000">$25,000 - $50,000</SelectItem>
+                          <SelectItem value="50000-100000">$50,000 - $100,000</SelectItem>
+                          <SelectItem value="100000+">$100,000+</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  
+                  <Button 
+                    onClick={handleSubmit} 
+                    className="w-full rounded-full mt-4"
+                    disabled={!devSearchQuery.trim()}
+                  >
+                    <Search className="mr-2 h-5 w-5" />
+                    Find AI Developers
+                  </Button>
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
           
           <div className="max-w-4xl mx-auto">
@@ -288,7 +392,7 @@ const FindAgents = () => {
         </div>
       </div>
       
-      <div className={`bg-white py-8 ${showFilters ? 'block' : 'hidden'}`}>
+      <div className={`bg-white py-8 ${showFilters && searchTab === "agents" ? 'block' : 'hidden'}`}>
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-semibold text-gray-700 mb-6">
