@@ -1,5 +1,5 @@
 
-import { Award, Plus } from "lucide-react";
+import { Award, Plus, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -13,12 +13,20 @@ export function EmptyState() {
       <p className="text-muted-foreground mb-6 max-w-sm">
         Showcase your services and skills to attract clients looking for implementation help or custom development.
       </p>
-      <Button asChild>
-        <Link to="/developer/expertise/new">
-          <Plus className="mr-2 h-4 w-4" />
-          Add Your First Expertise
-        </Link>
-      </Button>
+      <div className="flex flex-col sm:flex-row gap-4">
+        <Button asChild>
+          <Link to="/developer/expertise/new">
+            <Plus className="mr-2 h-4 w-4" />
+            Add Your First Expertise
+          </Link>
+        </Button>
+        <Button variant="outline" asChild>
+          <Link to="/developer/api-integration">
+            <BookOpen className="mr-2 h-4 w-4" />
+            API Integration Guide
+          </Link>
+        </Button>
+      </div>
     </div>
   );
 }

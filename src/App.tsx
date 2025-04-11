@@ -20,6 +20,7 @@ import RequestCustomSolution from "./pages/RequestCustomSolution";
 import Expertise from "./pages/developer/Expertise";
 import ExpertiseForm from "./pages/developer/ExpertiseForm";
 import ExpertisePreview from "./pages/developer/ExpertisePreview";
+import ApiIntegration from "./pages/developer/ApiIntegration";
 
 // Create a new QueryClient instance
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ const App = () => (
           <Route path="/developer/agents" element={<AgentManagement />} />
           <Route path="/developer/inquiries" element={<InquiryManagement />} />
           <Route path="/developer/documentation" element={<Documentation />} />
+          <Route path="/developer/api-integration" element={<ApiIntegration />} />
           
           {/* Expertise Routes */}
           <Route path="/developer/expertise" element={<Expertise />} />
