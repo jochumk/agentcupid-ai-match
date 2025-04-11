@@ -1,16 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { 
-  Search, 
-  Mic, 
   MessagesSquare, 
-  Mail, 
-  Calendar, 
-  FileText, 
-  Settings, 
-  Building2, 
-  Users, 
-  BookOpen,
   Brain,
   BarChart,
   Briefcase,
@@ -25,17 +16,24 @@ import {
   PenTool,
   ShoppingCart,
   Video,
-  X,
-  ChevronDown
+  ChevronDown,
+  Users,
+  BookOpen,
+  Building2,
+  FileText,
+  Settings,
+  Calendar,
+  Mail,
+  Search
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import SearchAssistant from "@/components/search/SearchAssistant";
 
 const categoryDefinitions = {
   communication: {
@@ -170,7 +168,6 @@ const FindAgents = () => {
   const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
 
-  // Example search prompts that rotate
   const examplePrompts = [
     "Answer customer emails automatically", 
     "Generate blog content weekly",
@@ -182,6 +179,10 @@ const FindAgents = () => {
   const handlePromptClick = (prompt: string) => {
     setSearchQuery(prompt);
     navigate(`/search-results?q=${encodeURIComponent(prompt)}`);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
   };
 
   const handleCategoryToggle = (categoryName: string) => {
@@ -235,36 +236,18 @@ const FindAgents = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <div className="bg-gray-50 py-12 md:py-20">
+      <div className="bg-gray-50 py-12 md:py-20 mt-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-8 md:mb-12">
             <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">
               Find the Perfect AI Agent for Your Needs
             </h1>
-            <p className="text-gray-600 text-lg">
+            <p className="text-gray-600 text-lg mb-8">
               Explore a wide range of AI agents designed to automate tasks, improve productivity, and enhance your business processes.
             </p>
+            
+            <SearchAssistant onSearch={handleSearch} initialQuery={searchQuery} />
           </div>
-          
-          <form onSubmit={handleSubmit} className="max-w-2xl mx-auto mb-8 md:mb-12">
-            <div className="relative">
-              <Input
-                type="text"
-                placeholder="Search for AI agents..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="rounded-full py-3 px-6 pr-12"
-              />
-              <Button
-                type="submit"
-                variant="ghost"
-                size="icon"
-                className="absolute right-1 top-1/2 transform -translate-y-1/2 rounded-full hover:bg-gray-100"
-              >
-                <Search className="h-5 w-5" />
-              </Button>
-            </div>
-          </form>
           
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center justify-between mb-4">
