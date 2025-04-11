@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
@@ -50,7 +49,6 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 
-// Mock data for email automation agents
 const emailAgents = [
   {
     id: 1,
@@ -182,10 +180,8 @@ const SearchResults = () => {
   const [showFilters, setShowFilters] = useState(true);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   
-  // Filtered agents based on selected filters
   const [filteredAgents, setFilteredAgents] = useState(emailAgents);
 
-  // Reset all filters
   const resetFilters = () => {
     setPriceRange([0, 500]);
     setMinRating("0");
@@ -197,7 +193,6 @@ const SearchResults = () => {
     setSortBy("relevance");
   };
 
-  // Handle toggling an agent for comparison
   const toggleAgentSelection = (agentId: number) => {
     if (selectedAgents.includes(agentId)) {
       setSelectedAgents(selectedAgents.filter(id => id !== agentId));
@@ -208,50 +203,41 @@ const SearchResults = () => {
     }
   };
 
-  // Apply filters and sorting
   useEffect(() => {
     let results = [...emailAgents];
     
-    // Apply price filter
     results = results.filter(agent => 
       agent.price >= priceRange[0] && agent.price <= priceRange[1]
     );
     
-    // Apply rating filter
     if (minRating !== "0") {
       results = results.filter(agent => agent.rating >= Number(minRating));
     }
     
-    // Apply user capacity filter
     if (userCapacity) {
       results = results.filter(agent => agent.userCapacity === userCapacity);
     }
     
-    // Apply difficulty filter
     if (difficulty) {
       results = results.filter(agent => agent.setupDifficulty === difficulty);
     }
     
-    // Apply integrations filter
     if (integrations.length > 0) {
       results = results.filter(agent => 
         integrations.some(integration => agent.integrations.includes(integration))
       );
     }
     
-    // Apply capabilities filter
     if (capabilities.length > 0) {
       results = results.filter(agent => 
         capabilities.some(capability => agent.capabilities.includes(capability))
       );
     }
     
-    // Apply response time filter
     if (responseTime) {
       results = results.filter(agent => agent.responseTime === responseTime);
     }
     
-    // Apply sorting
     switch (sortBy) {
       case "price-low":
         results.sort((a, b) => a.price - b.price);
@@ -266,21 +252,17 @@ const SearchResults = () => {
         results.sort((a, b) => b.popularityScore - a.popularityScore);
         break;
       default:
-        // Default 'relevance' sorting is already applied in the mock data
         break;
     }
     
     setFilteredAgents(results);
   }, [priceRange, minRating, userCapacity, difficulty, integrations, capabilities, responseTime, sortBy]);
 
-  // Handle search query submission
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     navigate(`/search-results?q=${encodeURIComponent(searchQuery)}`);
-    // In a real app, this would trigger a new search
   };
 
-  // Handle integration toggle
   const toggleIntegration = (integration: string) => {
     if (integrations.includes(integration)) {
       setIntegrations(integrations.filter(i => i !== integration));
@@ -289,7 +271,6 @@ const SearchResults = () => {
     }
   };
 
-  // Handle capability toggle
   const toggleCapability = (capability: string) => {
     if (capabilities.includes(capability)) {
       setCapabilities(capabilities.filter(c => c !== capability));
@@ -298,7 +279,6 @@ const SearchResults = () => {
     }
   };
 
-  // Function to render star ratings
   const renderStars = (rating: number) => {
     return Array(5)
       .fill(0)
@@ -316,7 +296,6 @@ const SearchResults = () => {
       ));
   };
 
-  // Check if we have results
   const hasResults = filteredAgents.length > 0;
 
   return (
@@ -324,7 +303,6 @@ const SearchResults = () => {
       <Navbar />
       
       <div className="pt-16 md:pt-24 bg-gray-50">
-        {/* Search header */}
         <div className="bg-white border-b">
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -406,7 +384,6 @@ const SearchResults = () => {
           
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col lg:flex-row gap-8">
-            {/* Filters sidebar */}
             <div className="w-full lg:w-1/4">
               <div className="bg-white rounded-lg border p-4 sticky top-20">
                 <div className="flex items-center justify-between mb-4">
@@ -438,7 +415,6 @@ const SearchResults = () => {
                 </div>
                 
                 <div className={`space-y-6 ${showFilters ? "block" : "hidden lg:block"}`}>
-                  {/* Price Range */}
                   <div>
                     <h3 className="text-sm font-medium mb-3">Price Range ($/month)</h3>
                     <Slider
@@ -454,7 +430,6 @@ const SearchResults = () => {
                     </div>
                   </div>
                   
-                  {/* Minimum Rating */}
                   <div>
                     <h3 className="text-sm font-medium mb-3">Minimum Rating</h3>
                     <Select value={minRating} onValueChange={setMinRating}>
@@ -471,7 +446,6 @@ const SearchResults = () => {
                     </Select>
                   </div>
                   
-                  {/* User Capacity */}
                   <div>
                     <h3 className="text-sm font-medium mb-3">User Capacity</h3>
                     <Select value={userCapacity} onValueChange={setUserCapacity}>
@@ -479,7 +453,7 @@ const SearchResults = () => {
                         <SelectValue placeholder="Any Capacity" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">Any Capacity</SelectItem>
+                        <SelectItem value="any">Any Capacity</SelectItem>
                         <SelectItem value="1-10">1-10 Users</SelectItem>
                         <SelectItem value="1-50">1-50 Users</SelectItem>
                         <SelectItem value="1-100">1-100 Users</SelectItem>
@@ -488,7 +462,6 @@ const SearchResults = () => {
                     </Select>
                   </div>
                   
-                  {/* Implementation Difficulty */}
                   <div>
                     <h3 className="text-sm font-medium mb-3">Implementation Difficulty</h3>
                     <Select value={difficulty} onValueChange={setDifficulty}>
@@ -496,7 +469,7 @@ const SearchResults = () => {
                         <SelectValue placeholder="Any Difficulty" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">Any Difficulty</SelectItem>
+                        <SelectItem value="any">Any Difficulty</SelectItem>
                         <SelectItem value="Easy">Easy</SelectItem>
                         <SelectItem value="Moderate">Moderate</SelectItem>
                         <SelectItem value="Complex">Complex</SelectItem>
@@ -504,7 +477,6 @@ const SearchResults = () => {
                     </Select>
                   </div>
                   
-                  {/* Integrations */}
                   <div>
                     <h3 className="text-sm font-medium mb-3">Integrations</h3>
                     <div className="space-y-2">
@@ -526,7 +498,6 @@ const SearchResults = () => {
                     </div>
                   </div>
                   
-                  {/* Advanced Filters */}
                   <Collapsible open={showAdvancedFilters} onOpenChange={setShowAdvancedFilters}>
                     <CollapsibleTrigger asChild>
                       <Button variant="ghost" className="flex w-full justify-between p-0 h-auto">
@@ -535,7 +506,6 @@ const SearchResults = () => {
                       </Button>
                     </CollapsibleTrigger>
                     <CollapsibleContent className="pt-4 space-y-6">
-                      {/* Email Capabilities */}
                       <div>
                         <h3 className="text-sm font-medium mb-3">Email Capabilities</h3>
                         <div className="space-y-2">
@@ -557,7 +527,6 @@ const SearchResults = () => {
                         </div>
                       </div>
                       
-                      {/* Response Time */}
                       <div>
                         <h3 className="text-sm font-medium mb-3">Response Time</h3>
                         <Select value={responseTime} onValueChange={setResponseTime}>
@@ -565,7 +534,7 @@ const SearchResults = () => {
                             <SelectValue placeholder="Any Response Time" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="">Any Response Time</SelectItem>
+                            <SelectItem value="any">Any Response Time</SelectItem>
                             <SelectItem value="Instant">Instant</SelectItem>
                             <SelectItem value="Minutes">Minutes</SelectItem>
                             <SelectItem value="Hours">Hours</SelectItem>
@@ -577,110 +546,106 @@ const SearchResults = () => {
                 </div>
               </div>
               
-              {/* Active Filters */}
-              {(integrations.length > 0 || capabilities.length > 0 || minRating !== "0" || userCapacity !== "" || difficulty !== "" || responseTime !== "") && (
-                <div className="bg-white rounded-lg border p-4 mt-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-medium">Active Filters</h3>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      onClick={resetFilters}
-                      className="text-xs h-7"
-                    >
-                      <X className="h-3 w-3 mr-1" />
-                      Clear All
-                    </Button>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {minRating !== "0" && (
-                      <div className="flex items-center bg-gray-100 rounded-full text-xs px-3 py-1">
-                        {minRating}+ Stars
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={() => setMinRating("0")}
-                          className="h-4 w-4 ml-1 p-0"
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    )}
-                    
-                    {userCapacity !== "" && (
-                      <div className="flex items-center bg-gray-100 rounded-full text-xs px-3 py-1">
-                        {userCapacity}
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={() => setUserCapacity("")}
-                          className="h-4 w-4 ml-1 p-0"
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    )}
-                    
-                    {difficulty !== "" && (
-                      <div className="flex items-center bg-gray-100 rounded-full text-xs px-3 py-1">
-                        {difficulty}
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={() => setDifficulty("")}
-                          className="h-4 w-4 ml-1 p-0"
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    )}
-                    
-                    {responseTime !== "" && (
-                      <div className="flex items-center bg-gray-100 rounded-full text-xs px-3 py-1">
-                        {responseTime} Response
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={() => setResponseTime("")}
-                          className="h-4 w-4 ml-1 p-0"
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    )}
-                    
-                    {integrations.map(integration => (
-                      <div key={integration} className="flex items-center bg-gray-100 rounded-full text-xs px-3 py-1">
-                        {integration}
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={() => toggleIntegration(integration)}
-                          className="h-4 w-4 ml-1 p-0"
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    ))}
-                    
-                    {capabilities.map(capability => (
-                      <div key={capability} className="flex items-center bg-gray-100 rounded-full text-xs px-3 py-1">
-                        {capability}
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={() => toggleCapability(capability)}
-                          className="h-4 w-4 ml-1 p-0"
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
+              <div className="bg-white rounded-lg border p-4 mt-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-sm font-medium">Active Filters</h3>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={resetFilters}
+                    className="text-xs h-7"
+                  >
+                    <X className="h-3 w-3 mr-1" />
+                    Clear All
+                  </Button>
                 </div>
-              )}
+                <div className="flex flex-wrap gap-2">
+                  {minRating !== "0" && (
+                    <div className="flex items-center bg-gray-100 rounded-full text-xs px-3 py-1">
+                      {minRating}+ Stars
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => setMinRating("0")}
+                        className="h-4 w-4 ml-1 p-0"
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {userCapacity !== "" && (
+                    <div className="flex items-center bg-gray-100 rounded-full text-xs px-3 py-1">
+                      {userCapacity}
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => setUserCapacity("")}
+                        className="h-4 w-4 ml-1 p-0"
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {difficulty !== "" && (
+                    <div className="flex items-center bg-gray-100 rounded-full text-xs px-3 py-1">
+                      {difficulty}
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => setDifficulty("")}
+                        className="h-4 w-4 ml-1 p-0"
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {responseTime !== "" && (
+                    <div className="flex items-center bg-gray-100 rounded-full text-xs px-3 py-1">
+                      {responseTime} Response
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => setResponseTime("")}
+                        className="h-4 w-4 ml-1 p-0"
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  )}
+                  
+                  {integrations.map(integration => (
+                    <div key={integration} className="flex items-center bg-gray-100 rounded-full text-xs px-3 py-1">
+                      {integration}
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => toggleIntegration(integration)}
+                        className="h-4 w-4 ml-1 p-0"
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  ))}
+                  
+                  {capabilities.map(capability => (
+                    <div key={capability} className="flex items-center bg-gray-100 rounded-full text-xs px-3 py-1">
+                      {capability}
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => toggleCapability(capability)}
+                        className="h-4 w-4 ml-1 p-0"
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </div>
               
-              {/* Comparison Panel */}
               {selectedAgents.length > 0 && (
                 <div className="bg-white rounded-lg border p-4 mt-4">
                   <h3 className="text-sm font-medium mb-3">Selected for Comparison</h3>
@@ -709,7 +674,6 @@ const SearchResults = () => {
               )}
             </div>
             
-            {/* Results */}
             <div className="w-full lg:w-3/4">
               {hasResults ? (
                 <>
@@ -721,7 +685,6 @@ const SearchResults = () => {
                     </TabsList>
                   </Tabs>
                   
-                  {/* Featured Section */}
                   {filteredAgents.length > 0 && (
                     <div className="mb-8">
                       <div className="flex items-center gap-2 mb-4">
@@ -819,7 +782,6 @@ const SearchResults = () => {
                     </div>
                   )}
                   
-                  {/* Results Grid or List */}
                   <div className={viewMode === "grid" ? "grid md:grid-cols-2 gap-6" : "space-y-4"}>
                     {filteredAgents.slice(1).map((agent) => (
                       viewMode === "grid" ? (
