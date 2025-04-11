@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import FindAgents from "./pages/FindAgents";
 import SearchResults from "./pages/SearchResults";
+import DeveloperSearchResults from "./pages/DeveloperSearchResults";
 import NotFound from "./pages/NotFound";
 import DeveloperLogin from "./pages/developer/DeveloperLogin";
 import DeveloperSignup from "./pages/developer/DeveloperSignup";
@@ -48,6 +49,7 @@ const App = () => (
           <Route path="/find-agents" element={<FindAgents />} />
           <Route path="/find-developers" element={<DeveloperLanding />} />
           <Route path="/search-results" element={<SearchResults />} />
+          <Route path="/developer-search-results" element={<DeveloperSearchResults />} />
           <Route path="/request-custom-solution" element={<RequestCustomSolution />} />
           <Route path="/submit-inquiry" element={<SubmitInquiry />} />
           

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -36,6 +35,14 @@ const FindAgents = () => {
     "Screen job applications"
   ];
 
+  const developerExamplePrompts = [
+    "ML Engineer",
+    "NLP Specialist",
+    "Computer Vision Expert",
+    "AI Solutions Architect",
+    "Reinforcement Learning"
+  ];
+
   const handlePromptClick = (prompt: string) => {
     if (searchTab === "agents") {
       setSearchQuery(prompt);
@@ -45,7 +52,7 @@ const FindAgents = () => {
       navigate(`/search-results?q=${encodeURIComponent(prompt)}&type=expertise`);
     } else {
       setDeveloperSearchQuery(prompt);
-      navigate(`/search-results?q=${encodeURIComponent(prompt)}&type=developers`);
+      navigate(`/developer-search-results?q=${encodeURIComponent(prompt)}&type=developers`);
     }
   };
 
@@ -86,6 +93,8 @@ const FindAgents = () => {
       if (setupTime !== "any") {
         queryParams.append("setupTime", setupTime);
       }
+      
+      navigate(`/search-results?${queryParams.toString()}`);
     } else if (searchTab === "expertise" && expertiseSearchQuery) {
       if (!expertiseSearchQuery.trim() && !businessDescription.trim()) {
         return;
@@ -119,6 +128,8 @@ const FindAgents = () => {
         navigate("/submit-inquiry?from=expertise");
         return;
       }
+      
+      navigate(`/search-results?${queryParams.toString()}`);
     } else if (searchTab === "developers" && developerSearchQuery) {
       queryParams.append("q", developerSearchQuery);
       queryParams.append("type", "developers");
@@ -130,9 +141,9 @@ const FindAgents = () => {
       if (experience !== "any") {
         queryParams.append("experience", experience);
       }
+      
+      navigate(`/developer-search-results?${queryParams.toString()}`);
     }
-
-    navigate(`/search-results?${queryParams.toString()}`);
   };
 
   const handleToolToggle = (toolName: string) => {
@@ -179,15 +190,22 @@ const FindAgents = () => {
               />
             }
             developerTabContent={
-              <DeveloperSearchTab
-                searchQuery={developerSearchQuery}
-                onSearch={handleSearch}
-                specialization={specialization}
-                onSpecializationChange={setSpecialization}
-                experience={experience}
-                onExperienceChange={setExperience}
-                onSubmit={handleSubmit}
-              />
+              <>
+                <DeveloperSearchTab
+                  searchQuery={developerSearchQuery}
+                  onSearch={handleSearch}
+                  specialization={specialization}
+                  onSpecializationChange={setSpecialization}
+                  experience={experience}
+                  onExperienceChange={setExperience}
+                  onSubmit={handleSubmit}
+                />
+                <ExamplePrompts 
+                  examplePrompts={developerExamplePrompts}
+                  onPromptClick={handlePromptClick}
+                  className="mt-6"
+                />
+              </>
             }
           />
           
