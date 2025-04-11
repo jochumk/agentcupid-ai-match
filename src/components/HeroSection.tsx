@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Search, Code } from "lucide-react";
+import { Search, Code } from "lucide-react";
 
 const HeroSection = () => {
   return (
@@ -24,7 +24,6 @@ const HeroSection = () => {
               <Link to="/find-agents" className="flex items-center">
                 <Search className="mr-2 h-5 w-5" />
                 Find AI
-                <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             <Button 
