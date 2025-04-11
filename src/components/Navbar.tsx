@@ -29,8 +29,8 @@ const Navbar = () => {
               className="pl-10 pr-4 py-2 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 w-[300px]"
             />
           </div>
-          <Link to="/discover" className="text-sm font-medium hover:text-primary">
-            Discover
+          <Link to="/find-agents" className="text-sm font-medium hover:text-primary">
+            Find AI Agents
           </Link>
           <Link to="/pricing" className="text-sm font-medium hover:text-primary">
             Pricing
@@ -67,8 +67,8 @@ const Navbar = () => {
               />
             </div>
             <div className="flex flex-col space-y-2">
-              <Link to="/discover" className="py-2 hover:text-primary">
-                Discover
+              <Link to="/find-agents" className="py-2 hover:text-primary">
+                Find AI Agents
               </Link>
               <Link to="/pricing" className="py-2 hover:text-primary">
                 Pricing
