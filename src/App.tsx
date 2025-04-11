@@ -22,10 +22,13 @@ import ExpertiseForm from "./pages/developer/ExpertiseForm";
 import ExpertisePreview from "./pages/developer/ExpertisePreview";
 import ApiIntegration from "./pages/developer/ApiIntegration";
 
-// New Customer Inquiry System Pages
+// Customer Pages
+import CustomerDashboard from "./pages/customer/CustomerDashboard";
 import SubmitInquiry from "./pages/SubmitInquiry";
 import CustomerInquiries from "./pages/customer/CustomerInquiries";
 import CustomerInquiryDetail from "./pages/customer/CustomerInquiryDetail";
+
+// Developer Inquiry System Pages
 import InquiryListing from "./pages/developer/InquiryListing";
 import InquiryDetail from "./pages/developer/InquiryDetail";
 
@@ -39,12 +42,14 @@ const App = () => (
         <Toaster />
         <Sonner />
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Index />} />
           <Route path="/find-agents" element={<FindAgents />} />
           <Route path="/search-results" element={<SearchResults />} />
           <Route path="/request-custom-solution" element={<RequestCustomSolution />} />
           
-          {/* Customer Inquiry System Routes */}
+          {/* Customer Routes */}
+          <Route path="/customer/dashboard" element={<CustomerDashboard />} />
           <Route path="/submit-inquiry" element={<SubmitInquiry />} />
           <Route path="/customer/inquiries" element={<CustomerInquiries />} />
           <Route path="/customer/inquiries/:id" element={<CustomerInquiryDetail />} />

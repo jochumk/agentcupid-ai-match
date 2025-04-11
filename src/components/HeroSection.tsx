@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Mail, MessageSquare } from "lucide-react";
+import { ArrowRight, Mail, MessageSquare, Code, User } from "lucide-react";
 
 const HeroSection = () => {
   return (
@@ -37,6 +37,40 @@ const HeroSection = () => {
               </Link>
             </Button>
           </div>
+          
+          <div className="mt-12 pt-8 border-t border-gray-200">
+            <h2 className="text-2xl font-semibold mb-6">Choose Your Path</h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow border border-gray-100">
+                <User className="h-10 w-10 text-primary mb-4" />
+                <h3 className="text-xl font-medium mb-2">For Businesses</h3>
+                <p className="text-gray-600 mb-4">
+                  Find and implement AI solutions to automate tasks and improve efficiency.
+                </p>
+                <Button asChild variant="outline" className="w-full">
+                  <Link to="/customer/dashboard" className="flex items-center justify-center">
+                    Customer Dashboard
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+              
+              <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow border border-gray-100">
+                <Code className="h-10 w-10 text-secondary mb-4" />
+                <h3 className="text-xl font-medium mb-2">For AI Developers</h3>
+                <p className="text-gray-600 mb-4">
+                  Showcase your AI agents and services to businesses that need them.
+                </p>
+                <Button asChild className="w-full">
+                  <Link to="/developer/dashboard" className="flex items-center justify-center">
+                    Developer Dashboard
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+          
           <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3">
             <Link 
               to="/search-results?q=Answer%20customer%20emails%20automatically" 
