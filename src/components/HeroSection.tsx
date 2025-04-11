@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Search, Code, User } from "lucide-react";
+import { ArrowRight, Search, Code } from "lucide-react";
 
 const HeroSection = () => {
   return (
@@ -25,17 +25,6 @@ const HeroSection = () => {
                 <Search className="mr-2 h-5 w-5" />
                 Find AI
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="h-14 px-6 text-lg" 
-              asChild
-            >
-              <Link to="/find-developers" className="flex items-center">
-                <User className="mr-2 h-5 w-5" />
-                Find AI Developer
               </Link>
             </Button>
             <Button 

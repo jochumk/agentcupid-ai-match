@@ -5,7 +5,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SearchHeader from "@/components/search/SearchHeader";
 import AgentSearchTab from "@/components/search/AgentSearchTab";
-import ExpertiseSearchTab from "@/components/search/DeveloperSearchTab";
 import DeveloperSearchTab from "@/components/search/DeveloperSearchTab";
 import { Button } from "@/components/ui/button";
 import { Briefcase } from "lucide-react";
@@ -60,6 +59,16 @@ export default function DeveloperLanding() {
     navigate(`/search-results?q=${encodeURIComponent(developerSearchQuery)}&type=developer&specialization=${specialization}&experience=${experience}`);
   };
   
+  const handleSearch = (query: string) => {
+    if (currentTab === "agents") {
+      setAgentSearchQuery(query);
+    } else if (currentTab === "expertise") {
+      setExpertiseSearchQuery(query);
+    } else {
+      setDeveloperSearchQuery(query);
+    }
+  };
+  
   const handlePromptClick = (prompt: string) => {
     setAgentSearchQuery(prompt);
   };
@@ -75,7 +84,7 @@ export default function DeveloperLanding() {
             agentTabContent={
               <AgentSearchTab 
                 searchQuery={agentSearchQuery}
-                onSearch={setAgentSearchQuery}
+                onSearch={handleSearch}
                 selectedCategories={selectedCategories}
                 selectedTools={selectedTools}
                 setupTime={setupTime}
@@ -85,20 +94,20 @@ export default function DeveloperLanding() {
               />
             }
             expertiseTabContent={
-              <ExpertiseSearchTab 
-                expertiseSearchQuery={expertiseSearchQuery}
-                onExpertiseSearchQueryChange={setExpertiseSearchQuery}
-                industry={industry}
-                onIndustryChange={setIndustry}
-                budget={budget}
-                onBudgetChange={setBudget}
+              <DeveloperSearchTab 
+                searchQuery={expertiseSearchQuery}
+                onSearch={handleSearch}
+                specialization={industry}
+                onSpecializationChange={setIndustry}
+                experience={budget}
+                onExperienceChange={setBudget}
                 onSubmit={handleExpertiseSearch}
               />
             }
             developerTabContent={
               <DeveloperSearchTab
                 searchQuery={developerSearchQuery}
-                onSearch={setDeveloperSearchQuery}
+                onSearch={handleSearch}
                 specialization={specialization}
                 onSpecializationChange={setSpecialization}
                 experience={experience}

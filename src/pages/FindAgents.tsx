@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -28,6 +27,7 @@ import Footer from "@/components/Footer";
 import SearchHeader from "@/components/search/SearchHeader";
 import AgentSearchTab from "@/components/search/AgentSearchTab";
 import ExpertiseSearchTab from "@/components/search/DeveloperSearchTab";
+import DeveloperSearchTab from "@/components/search/DeveloperSearchTab";
 import AgentFilters from "@/components/search/AgentFilters";
 
 const categoryDefinitions = {
@@ -158,13 +158,16 @@ const categories = Object.values(categoryDefinitions);
 const FindAgents = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [expertiseSearchQuery, setExpertiseSearchQuery] = useState("");
-  const [searchTab, setSearchTab] = useState<"agents" | "expertise">("agents");
+  const [developerSearchQuery, setDeveloperSearchQuery] = useState("");
+  const [searchTab, setSearchTab] = useState<"agents" | "expertise" | "developers">("agents");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTools, setSelectedTools] = useState<string[]>([]);
   const [setupTime, setSetupTime] = useState<string>("any");
   const [showFilters, setShowFilters] = useState(false);
   const [industry, setIndustry] = useState<string>("any");
   const [budget, setBudget] = useState<string>("any");
+  const [specialization, setSpecialization] = useState<string>("any");
+  const [experience, setExperience] = useState<string>("any");
   const navigate = useNavigate();
 
   const examplePrompts = [
@@ -179,17 +182,22 @@ const FindAgents = () => {
     if (searchTab === "agents") {
       setSearchQuery(prompt);
       navigate(`/search-results?q=${encodeURIComponent(prompt)}&type=agents`);
-    } else {
+    } else if (searchTab === "expertise") {
       setExpertiseSearchQuery(prompt);
       navigate(`/search-results?q=${encodeURIComponent(prompt)}&type=expertise`);
+    } else {
+      setDeveloperSearchQuery(prompt);
+      navigate(`/search-results?q=${encodeURIComponent(prompt)}&type=developers`);
     }
   };
 
   const handleSearch = (query: string) => {
     if (searchTab === "agents") {
       setSearchQuery(query);
-    } else {
+    } else if (searchTab === "expertise") {
       setExpertiseSearchQuery(query);
+    } else {
+      setDeveloperSearchQuery(query);
     }
   };
 
@@ -231,6 +239,17 @@ const FindAgents = () => {
       if (budget !== "any") {
         queryParams.append("budget", budget);
       }
+    } else if (searchTab === "developers" && developerSearchQuery) {
+      queryParams.append("q", developerSearchQuery);
+      queryParams.append("type", "developers");
+
+      if (specialization !== "any") {
+        queryParams.append("specialization", specialization);
+      }
+
+      if (experience !== "any") {
+        queryParams.append("experience", experience);
+      }
     }
 
     navigate(`/search-results?${queryParams.toString()}`);
@@ -260,7 +279,7 @@ const FindAgents = () => {
         <div className="container mx-auto px-4">
           <SearchHeader 
             searchTab={searchTab}
-            onSearchTabChange={(value) => setSearchTab(value as "agents" | "expertise")}
+            onSearchTabChange={(value) => setSearchTab(value as "agents" | "expertise" | "developers")}
             agentTabContent={
               <AgentSearchTab 
                 searchQuery={searchQuery}
@@ -275,12 +294,23 @@ const FindAgents = () => {
             }
             expertiseTabContent={
               <ExpertiseSearchTab 
-                expertiseSearchQuery={expertiseSearchQuery}
-                onExpertiseSearchQueryChange={setExpertiseSearchQuery}
-                industry={industry}
-                onIndustryChange={setIndustry}
-                budget={budget}
-                onBudgetChange={setBudget}
+                searchQuery={expertiseSearchQuery}
+                onSearch={handleSearch}
+                specialization={industry}
+                onSpecializationChange={setIndustry}
+                experience={budget}
+                onExperienceChange={setBudget}
+                onSubmit={handleSubmit}
+              />
+            }
+            developerTabContent={
+              <DeveloperSearchTab
+                searchQuery={developerSearchQuery}
+                onSearch={handleSearch}
+                specialization={specialization}
+                onSpecializationChange={setSpecialization}
+                experience={experience}
+                onExperienceChange={setExperience}
                 onSubmit={handleSubmit}
               />
             }
