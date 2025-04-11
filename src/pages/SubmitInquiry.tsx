@@ -69,6 +69,7 @@ const formSchema = z.object({
   }),
   currentTools: z.string().optional(),
   integrationRequirements: z.string().optional(),
+  integrationOptions: z.array(z.string()).optional(),
   timeline: z.string({
     required_error: "Please select your preferred timeline.",
   }),
@@ -104,6 +105,17 @@ const timelineOptions = [
   { value: "flexible", label: "Flexible" },
 ];
 
+const integrationOptions = [
+  { id: "crm", label: "CRM Systems" },
+  { id: "email", label: "Email Providers" },
+  { id: "knowledge-base", label: "Knowledge Base" },
+  { id: "chat", label: "Chat/Messaging Platforms" },
+  { id: "ticketing", label: "Ticketing Systems" },
+  { id: "analytics", label: "Analytics Tools" },
+  { id: "database", label: "Database Systems" },
+  { id: "api", label: "External APIs" },
+];
+
 // Mock data for developers (would come from API in real implementation)
 const topDevelopers = [
   { id: "dev1", name: "Alex Johnson", expertise: "Email Automation, Data Analysis" },
@@ -115,6 +127,7 @@ const SubmitInquiry = () => {
   const navigate = useNavigate();
   const [budgetRange, setBudgetRange] = useState([1000, 5000]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedIntegrations, setSelectedIntegrations] = useState<string[]>([]);
   
   // Define form with validation
   const form = useForm<FormValues>({
@@ -130,6 +143,7 @@ const SubmitInquiry = () => {
       projectDescription: "",
       currentTools: "",
       integrationRequirements: "",
+      integrationOptions: [],
       timeline: "",
       budgetType: "open",
       fixedBudget: "",
@@ -149,6 +163,9 @@ const SubmitInquiry = () => {
   };
   
   const onSubmit = (values: FormValues) => {
+    // Add the selected integrations to the form values
+    values.integrationOptions = selectedIntegrations;
+    
     // In a real application, this would submit to an API
     console.log(values);
     console.log("Attached file:", selectedFile);
@@ -413,26 +430,56 @@ const SubmitInquiry = () => {
                       )}
                     />
                     
-                    <FormField
-                      control={form.control}
-                      name="integrationRequirements"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Integration Requirements</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <Link2 className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                              <Input 
-                                className="pl-10" 
-                                placeholder="List any systems the solution needs to integrate with..." 
-                                {...field} 
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    {/* Integration Needs Checklist */}
+                    <div className="space-y-3">
+                      <FormLabel>Integration Needs</FormLabel>
+                      <div className="grid grid-cols-2 gap-2">
+                        {integrationOptions.map((option) => (
+                          <div key={option.id} className="flex items-start space-x-2">
+                            <Checkbox 
+                              id={option.id} 
+                              checked={selectedIntegrations.includes(option.id)}
+                              onCheckedChange={(checked) => {
+                                if (checked) {
+                                  setSelectedIntegrations([...selectedIntegrations, option.id]);
+                                } else {
+                                  setSelectedIntegrations(
+                                    selectedIntegrations.filter((id) => id !== option.id)
+                                  );
+                                }
+                              }}
+                            />
+                            <label
+                              htmlFor={option.id}
+                              className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                            >
+                              {option.label}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <FormField
+                        control={form.control}
+                        name="integrationRequirements"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Additional Integration Details</FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <Link2 className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                <Input 
+                                  className="pl-10" 
+                                  placeholder="Describe any specific integration requirements..." 
+                                  {...field} 
+                                />
+                              </div>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                   </div>
                   
                   {/* Budget Section */}

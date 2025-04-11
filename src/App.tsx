@@ -47,10 +47,10 @@ const App = () => (
           <Route path="/find-agents" element={<FindAgents />} />
           <Route path="/search-results" element={<SearchResults />} />
           <Route path="/request-custom-solution" element={<RequestCustomSolution />} />
+          <Route path="/submit-inquiry" element={<SubmitInquiry />} />
           
           {/* Customer Routes */}
           <Route path="/customer/dashboard" element={<CustomerDashboard />} />
-          <Route path="/submit-inquiry" element={<SubmitInquiry />} />
           <Route path="/customer/inquiries" element={<CustomerInquiries />} />
           <Route path="/customer/inquiries/:id" element={<CustomerInquiryDetail />} />
           

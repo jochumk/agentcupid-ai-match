@@ -47,12 +47,20 @@ const HeroSection = () => {
                 <p className="text-gray-600 mb-4">
                   Find and implement AI solutions to automate tasks and improve efficiency.
                 </p>
-                <Button asChild variant="outline" className="w-full">
-                  <Link to="/customer/dashboard" className="flex items-center justify-center">
-                    Customer Dashboard
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
+                <div className="flex flex-col space-y-2">
+                  <Button asChild variant="outline" className="w-full">
+                    <Link to="/customer/dashboard" className="flex items-center justify-center">
+                      Customer Dashboard
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="ghost" className="w-full">
+                    <Link to="/submit-inquiry" className="flex items-center justify-center">
+                      Submit an Inquiry
+                      <MessageSquare className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
               </div>
               
               <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow border border-gray-100">
@@ -61,12 +69,20 @@ const HeroSection = () => {
                 <p className="text-gray-600 mb-4">
                   Showcase your AI agents and services to businesses that need them.
                 </p>
-                <Button asChild className="w-full">
-                  <Link to="/developer/dashboard" className="flex items-center justify-center">
-                    Developer Dashboard
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
+                <div className="flex flex-col space-y-2">
+                  <Button asChild className="w-full">
+                    <Link to="/developer/dashboard" className="flex items-center justify-center">
+                      Developer Dashboard
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="ghost" className="w-full">
+                    <Link to="/developer/inquiries" className="flex items-center justify-center">
+                      Browse Inquiries
+                      <Mail className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
