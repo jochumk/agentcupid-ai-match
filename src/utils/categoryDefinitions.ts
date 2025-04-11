@@ -156,7 +156,8 @@ export const categories = Object.values(categoryDefinitions);
 export const renderCategoryIcon = (categoryName: string) => {
   const category = categoryDefinitions[categoryName as keyof typeof categoryDefinitions];
   if (category && category.icon) {
-    return <category.icon className="h-5 w-5 mr-2" />;
+    const IconComponent = category.icon;
+    return <IconComponent className="h-5 w-5 mr-2" />;
   }
   return null;
 };
