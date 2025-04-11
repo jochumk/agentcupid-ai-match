@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
@@ -221,12 +222,120 @@ const InquiryListing = () => {
               <Button variant="outline" onClick={() => setSearchQuery("")}>
                 Clear
               </Button>
-              <DialogTrigger asChild>
-                <Button variant="outline">
-                  <Filter className="mr-2 h-4 w-4" />
-                  Filters
-                </Button>
-              </DialogTrigger>
+              <Dialog open={isFilterDialogOpen} onOpenChange={setIsFilterDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="outline">
+                    <Filter className="mr-2 h-4 w-4" />
+                    Filters
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center">
+                      <Sliders className="mr-2 h-5 w-5" />
+                      Filter Inquiries
+                    </DialogTitle>
+                    <DialogDescription>
+                      Set filters to narrow down the inquiries based on your preferences.
+                    </DialogDescription>
+                  </DialogHeader>
+                  
+                  <div className="grid gap-4 py-4">
+                    {/* Industry Filter */}
+                    <div className="space-y-2">
+                      <Label>Industry</Label>
+                      <ScrollArea className="h-[120px] w-full rounded-md border p-2">
+                        <div className="flex flex-col space-y-1">
+                          {["E-commerce", "Marketing", "Finance", "Healthcare", "Technology"].map((industry) => (
+                            <div key={industry} className="flex items-center space-x-2">
+                              <Checkbox
+                                id={`industry-${industry}`}
+                                checked={filters.industries.includes(industry)}
+                                onCheckedChange={(checked) =>
+                                  handleFilterChange("industries", industry)
+                                }
+                              />
+                              <Label htmlFor={`industry-${industry}`}>{industry}</Label>
+                            </div>
+                          ))}
+                        </div>
+                      </ScrollArea>
+                    </div>
+                    
+                    {/* Integration Filter */}
+                    <div className="space-y-2">
+                      <Label>Integrations</Label>
+                      <ScrollArea className="h-[120px] w-full rounded-md border p-2">
+                        <div className="flex flex-col space-y-1">
+                          {["Website", "CRM", "Mailchimp", "Salesforce", "Excel", "SQL"].map((integration) => (
+                            <div key={integration} className="flex items-center space-x-2">
+                              <Checkbox
+                                id={`integration-${integration}`}
+                                checked={filters.integrations.includes(integration)}
+                                onCheckedChange={(checked) =>
+                                  handleFilterChange("integrations", integration)
+                                }
+                              />
+                              <Label htmlFor={`integration-${integration}`}>{integration}</Label>
+                            </div>
+                          ))}
+                        </div>
+                      </ScrollArea>
+                    </div>
+                    
+                    {/* Show Preferred Only */}
+                    <div className="flex items-center space-x-2">
+                      <Checkbox 
+                        id="show-preferred" 
+                        checked={filters.showPreferred}
+                        onCheckedChange={handleShowPreferredChange}
+                      />
+                      <Label htmlFor="show-preferred">Show recommended inquiries only</Label>
+                    </div>
+                    
+                    {/* Budget Range Input */}
+                    <div className="space-y-2">
+                      <Label>Budget Range</Label>
+                      <div className="flex items-center space-x-2">
+                        <Input
+                          type="number"
+                          placeholder="Min"
+                          value={filters.budget.min}
+                          onChange={(e) => 
+                            setFilters(prev => ({
+                              ...prev, 
+                              budget: {...prev.budget, min: parseInt(e.target.value) || 0}
+                            }))
+                          }
+                          className="w-24"
+                        />
+                        <span>to</span>
+                        <Input
+                          type="number"
+                          placeholder="Max"
+                          value={filters.budget.max}
+                          onChange={(e) => 
+                            setFilters(prev => ({
+                              ...prev, 
+                              budget: {...prev.budget, max: parseInt(e.target.value) || 10000}
+                            }))
+                          }
+                          className="w-24"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-end space-x-2">
+                    <Button type="button" variant="secondary" onClick={clearFilters}>
+                      Reset Filters
+                    </Button>
+                    <Button type="button" onClick={() => setIsFilterDialogOpen(false)}>
+                      Apply Filters
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
 
             <Tabs defaultValue="all" className="space-y-4">
@@ -520,115 +629,7 @@ const InquiryListing = () => {
         </Card>
       </div>
 
-      {/* Filter Dialog */}
-      <Dialog open={isFilterDialogOpen} onOpenChange={setIsFilterDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center">
-              <Sliders className="mr-2 h-5 w-5" />
-              Filter Inquiries
-            </DialogTitle>
-            <DialogDescription>
-              Set filters to narrow down the inquiries based on your preferences.
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="grid gap-4 py-4">
-            {/* Industry Filter */}
-            <div className="space-y-2">
-              <Label>Industry</Label>
-              <ScrollArea className="h-[120px] w-full rounded-md border p-2">
-                <div className="flex flex-col space-y-1">
-                  {["E-commerce", "Marketing", "Finance", "Healthcare", "Technology"].map((industry) => (
-                    <div key={industry} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={`industry-${industry}`}
-                        checked={filters.industries.includes(industry)}
-                        onCheckedChange={(checked) =>
-                          handleFilterChange("industries", industry)
-                        }
-                      />
-                      <Label htmlFor={`industry-${industry}`}>{industry}</Label>
-                    </div>
-                  ))}
-                </div>
-              </ScrollArea>
-            </div>
-            
-            {/* Integration Filter */}
-            <div className="space-y-2">
-              <Label>Integrations</Label>
-              <ScrollArea className="h-[120px] w-full rounded-md border p-2">
-                <div className="flex flex-col space-y-1">
-                  {["Website", "CRM", "Mailchimp", "Salesforce", "Excel", "SQL"].map((integration) => (
-                    <div key={integration} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={`integration-${integration}`}
-                        checked={filters.integrations.includes(integration)}
-                        onCheckedChange={(checked) =>
-                          handleFilterChange("integrations", integration)
-                        }
-                      />
-                      <Label htmlFor={`integration-${integration}`}>{integration}</Label>
-                    </div>
-                  ))}
-                </div>
-              </ScrollArea>
-            </div>
-            
-            {/* Show Preferred Only */}
-            <div className="flex items-center space-x-2">
-              <Checkbox 
-                id="show-preferred" 
-                checked={filters.showPreferred}
-                onCheckedChange={handleShowPreferredChange}
-              />
-              <Label htmlFor="show-preferred">Show recommended inquiries only</Label>
-            </div>
-            
-            {/* Budget Range Input - replace Slider with a simple min/max input */}
-            <div className="space-y-2">
-              <Label>Budget Range</Label>
-              <div className="flex items-center space-x-2">
-                <Input
-                  type="number"
-                  placeholder="Min"
-                  value={filters.budget.min}
-                  onChange={(e) => 
-                    setFilters(prev => ({
-                      ...prev, 
-                      budget: {...prev.budget, min: parseInt(e.target.value) || 0}
-                    }))
-                  }
-                  className="w-24"
-                />
-                <span>to</span>
-                <Input
-                  type="number"
-                  placeholder="Max"
-                  value={filters.budget.max}
-                  onChange={(e) => 
-                    setFilters(prev => ({
-                      ...prev, 
-                      budget: {...prev.budget, max: parseInt(e.target.value) || 10000}
-                    }))
-                  }
-                  className="w-24"
-                />
-              </div>
-            </div>
-          </div>
-          
-          <div className="flex justify-end space-x-2">
-            <Button type="button" variant="secondary" onClick={clearFilters}>
-              Reset Filters
-            </Button>
-            <Button type="button" onClick={() => setIsFilterDialogOpen(false)}>
-              Apply Filters
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Remove the extra Dialog component since we now have it in the right place */}
     </DeveloperLayout>
   );
 };
