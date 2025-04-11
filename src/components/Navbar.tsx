@@ -64,9 +64,6 @@ const Navbar = () => {
             For AI Creators
           </Link>
           <div className="flex space-x-2">
-            <Button variant="outline" asChild>
-              <Link to="/login">Log in</Link>
-            </Button>
             <Button asChild>
               <Link to="/signup">Sign up</Link>
             </Button>
@@ -114,9 +111,6 @@ const Navbar = () => {
                 For AI Creators
               </Link>
               <div className="pt-2 flex flex-col space-y-2">
-                <Button variant="outline" asChild>
-                  <Link to="/login">Log in</Link>
-                </Button>
                 <Button asChild>
                   <Link to="/signup">Sign up</Link>
                 </Button>
