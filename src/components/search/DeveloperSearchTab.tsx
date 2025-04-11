@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-interface DeveloperSearchTabProps {
-  devSearchQuery: string;
-  onDevSearchQueryChange: (value: string) => void;
+interface ExpertiseSearchTabProps {
+  expertiseSearchQuery: string;
+  onExpertiseSearchQueryChange: (value: string) => void;
   industry: string;
   onIndustryChange: (value: string) => void;
   budget: string;
@@ -14,22 +14,22 @@ interface DeveloperSearchTabProps {
   onSubmit: (e: React.FormEvent) => void;
 }
 
-export default function DeveloperSearchTab({
-  devSearchQuery,
-  onDevSearchQueryChange,
+export default function ExpertiseSearchTab({
+  expertiseSearchQuery,
+  onExpertiseSearchQueryChange,
   industry,
   onIndustryChange,
   budget,
   onBudgetChange,
   onSubmit
-}: DeveloperSearchTabProps) {
+}: ExpertiseSearchTabProps) {
   return (
     <div className="space-y-4">
       <Textarea 
         placeholder="Describe your business challenge... 
 Example: We need help automating our customer support workflow by integrating with our existing CRM system..."
-        value={devSearchQuery}
-        onChange={(e) => onDevSearchQueryChange(e.target.value)}
+        value={expertiseSearchQuery}
+        onChange={(e) => onExpertiseSearchQueryChange(e.target.value)}
         className="min-h-[120px] p-4 text-base"
       />
       <p className="text-sm text-gray-500 text-left">
@@ -77,10 +77,10 @@ Example: We need help automating our customer support workflow by integrating wi
       <Button 
         onClick={onSubmit} 
         className="w-full rounded-full mt-4"
-        disabled={!devSearchQuery.trim()}
+        disabled={!expertiseSearchQuery.trim()}
       >
         <Search className="mr-2 h-5 w-5" />
-        Find AI Developers
+        Find AI Expertise
       </Button>
     </div>
   );

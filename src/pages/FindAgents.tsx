@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -24,10 +25,9 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
 import SearchHeader from "@/components/search/SearchHeader";
 import AgentSearchTab from "@/components/search/AgentSearchTab";
-import DeveloperSearchTab from "@/components/search/DeveloperSearchTab";
+import ExpertiseSearchTab from "@/components/search/DeveloperSearchTab";
 import AgentFilters from "@/components/search/AgentFilters";
 
 const categoryDefinitions = {
@@ -157,8 +157,8 @@ const categories = Object.values(categoryDefinitions);
 
 const FindAgents = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [devSearchQuery, setDevSearchQuery] = useState("");
-  const [searchTab, setSearchTab] = useState<"agents" | "developers">("agents");
+  const [expertiseSearchQuery, setExpertiseSearchQuery] = useState("");
+  const [searchTab, setSearchTab] = useState<"agents" | "expertise">("agents");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedTools, setSelectedTools] = useState<string[]>([]);
   const [setupTime, setSetupTime] = useState<string>("any");
@@ -180,8 +180,8 @@ const FindAgents = () => {
       setSearchQuery(prompt);
       navigate(`/search-results?q=${encodeURIComponent(prompt)}&type=agents`);
     } else {
-      setDevSearchQuery(prompt);
-      navigate(`/search-results?q=${encodeURIComponent(prompt)}&type=developers`);
+      setExpertiseSearchQuery(prompt);
+      navigate(`/search-results?q=${encodeURIComponent(prompt)}&type=expertise`);
     }
   };
 
@@ -189,7 +189,7 @@ const FindAgents = () => {
     if (searchTab === "agents") {
       setSearchQuery(query);
     } else {
-      setDevSearchQuery(query);
+      setExpertiseSearchQuery(query);
     }
   };
 
@@ -220,9 +220,9 @@ const FindAgents = () => {
       if (setupTime !== "any") {
         queryParams.append("setupTime", setupTime);
       }
-    } else if (searchTab === "developers" && devSearchQuery) {
-      queryParams.append("q", devSearchQuery);
-      queryParams.append("type", "developers");
+    } else if (searchTab === "expertise" && expertiseSearchQuery) {
+      queryParams.append("q", expertiseSearchQuery);
+      queryParams.append("type", "expertise");
 
       if (industry !== "any") {
         queryParams.append("industry", industry);
@@ -260,7 +260,7 @@ const FindAgents = () => {
         <div className="container mx-auto px-4">
           <SearchHeader 
             searchTab={searchTab}
-            onSearchTabChange={(value) => setSearchTab(value as "agents" | "developers")}
+            onSearchTabChange={(value) => setSearchTab(value as "agents" | "expertise")}
             agentTabContent={
               <AgentSearchTab 
                 searchQuery={searchQuery}
@@ -273,10 +273,10 @@ const FindAgents = () => {
                 onPromptClick={handlePromptClick}
               />
             }
-            developerTabContent={
-              <DeveloperSearchTab 
-                devSearchQuery={devSearchQuery}
-                onDevSearchQueryChange={setDevSearchQuery}
+            expertiseTabContent={
+              <ExpertiseSearchTab 
+                expertiseSearchQuery={expertiseSearchQuery}
+                onExpertiseSearchQueryChange={setExpertiseSearchQuery}
                 industry={industry}
                 onIndustryChange={setIndustry}
                 budget={budget}

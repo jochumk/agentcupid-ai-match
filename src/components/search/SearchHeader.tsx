@@ -2,17 +2,17 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface SearchHeaderProps {
-  searchTab: "agents" | "developers";
+  searchTab: "agents" | "expertise";
   onSearchTabChange: (value: string) => void;
   agentTabContent: React.ReactNode;
-  developerTabContent: React.ReactNode;
+  expertiseTabContent: React.ReactNode;
 }
 
 export default function SearchHeader({
   searchTab,
   onSearchTabChange,
   agentTabContent,
-  developerTabContent
+  expertiseTabContent
 }: SearchHeaderProps) {
   return (
     <div className="max-w-3xl mx-auto text-center mb-8 md:mb-12">
@@ -26,20 +26,20 @@ export default function SearchHeader({
       <Tabs 
         defaultValue="agents" 
         value={searchTab} 
-        onValueChange={(value) => onSearchTabChange(value as "agents" | "developers")}
+        onValueChange={(value) => onSearchTabChange(value as "agents" | "expertise")}
         className="w-full max-w-xl mx-auto"
       >
         <TabsList className="grid w-full grid-cols-2 mb-8">
           <TabsTrigger value="agents" className="text-base py-3">Find AI Agents</TabsTrigger>
-          <TabsTrigger value="developers" className="text-base py-3">Find AI Developers</TabsTrigger>
+          <TabsTrigger value="expertise" className="text-base py-3">Find AI Expertise</TabsTrigger>
         </TabsList>
         
         <TabsContent value="agents">
           {agentTabContent}
         </TabsContent>
         
-        <TabsContent value="developers">
-          {developerTabContent}
+        <TabsContent value="expertise">
+          {expertiseTabContent}
         </TabsContent>
       </Tabs>
     </div>
